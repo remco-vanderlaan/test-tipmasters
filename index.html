@@ -7,125 +7,384 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #f5f5f5; font-family: 'Open Sans', sans-serif; padding: 20px; }
-  .app { display: flex; flex-direction: column; gap: 20px; max-width: 500px; margin: 0 auto; }
-  .form-panel { background: #fff; border-radius: 14px; padding: 20px; border: 1px solid #ddd; }
-  .form-panel h2 { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 16px; letter-spacing: 1px; }
-  .field { margin-bottom: 12px; }
-  .field label { display: block; font-size: 11px; color: #666; margin-bottom: 4px; letter-spacing: 0.5px; }
-  .field input, .field textarea { width: 100%; padding: 8px 10px; background: #f9f9f9; border: 1px solid #ddd; border-radius: 6px; color: #333; font-size: 13px; font-family: 'Open Sans', sans-serif; outline: none; }
-  .field input:focus, .field textarea:focus { border-color: #4a9a2a; }
+  body { background: #1a1a1a; font-family: 'Open Sans', sans-serif; min-height: 100vh; padding: 20px; color: #eee; }
+
+  h1 { font-family: 'Cinzel', serif; color: #daa520; font-size: 18px; text-align: center; margin-bottom: 20px; letter-spacing: 2px; }
+
+  .layout { display: grid; grid-template-columns: 320px 1fr; gap: 20px; max-width: 1100px; margin: 0 auto; }
+
+  /* SIDEBAR */
+  .sidebar { display: flex; flex-direction: column; gap: 14px; }
+
+  .panel { background: #242424; border-radius: 12px; padding: 16px; border: 1px solid #333; }
+  .panel h3 { font-size: 11px; color: #888; letter-spacing: 1.5px; margin-bottom: 12px; }
+
+  .upload-area {
+    border: 2px dashed #444; border-radius: 10px; padding: 24px;
+    text-align: center; cursor: pointer; transition: border-color 0.2s;
+  }
+  .upload-area:hover { border-color: #daa520; }
+  .upload-area input { display: none; }
+  .upload-icon { font-size: 28px; margin-bottom: 8px; }
+  .upload-text { font-size: 12px; color: #888; }
+  .upload-text span { color: #daa520; }
+
+  .field { margin-bottom: 10px; }
+  .field label { display: block; font-size: 10px; color: #888; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .field input, .field textarea, .field select {
+    width: 100%; padding: 7px 10px;
+    background: #1a1a1a; border: 1px solid #333;
+    border-radius: 6px; color: #eee;
+    font-size: 12px; font-family: 'Open Sans', sans-serif; outline: none;
+  }
+  .field input:focus, .field textarea:focus { border-color: #daa520; }
   .field textarea { resize: vertical; min-height: 80px; }
-  .field-hint { font-size: 10px; color: #999; margin-top: 3px; }
-  .btn-update { width: 100%; padding: 10px; background: #1a4a0a; border: 1px solid #4a9a2a; border-radius: 8px; color: #c8e832; font-size: 13px; font-family: 'Cinzel', serif; letter-spacing: 1px; cursor: pointer; margin-bottom: 10px; }
-  .btn-update:hover { background: #2a6a1a; }
-  .btn-download { width: 100%; padding: 10px; background: linear-gradient(135deg, #daa520, #b8860b); border: none; border-radius: 8px; color: #071407; font-size: 13px; font-weight: 700; font-family: 'Cinzel', serif; letter-spacing: 1px; cursor: pointer; }
-  .btn-download:hover { background: linear-gradient(135deg, #f0b830, #daa520); }
-  .btn-download:disabled { opacity: 0.5; cursor: not-allowed; }
-  .download-note { font-size: 10px; color: #999; text-align: center; margin-top: 6px; }
-  .pr-wrap { background: #071407; border-radius: 14px; padding: 20px 18px 16px; font-family: 'Open Sans', sans-serif; border: 1.5px solid #2d5e1e; position: relative; overflow: hidden; }
-  .pr-wrap::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 40% at 10% 0%, #1a4a0a44 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 90% 100%, #0d3a0555 0%, transparent 60%); pointer-events: none; }
-  .pr-inner { position: relative; z-index: 1; }
-  .pr-logo { text-align: center; margin-bottom: 8px; }
-  .pr-logo-circle { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(145deg, #b8860b, #daa520, #8b6914); border: 2px solid #daa520; font-family: 'Cinzel', serif; font-size: 22px; font-weight: 900; color: #071407; }
-  .pr-title-box { text-align: center; margin-bottom: 10px; border: 1.5px solid #3d7a1e; border-radius: 8px; padding: 7px 16px; background: linear-gradient(180deg, #0e2a08 0%, #071407 100%); position: relative; }
-  .pr-title-box::before { content: '✦'; color: #daa520; font-size: 10px; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); }
-  .pr-title-box::after { content: '✦'; color: #daa520; font-size: 10px; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
-  .pr-title { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 900; color: #f0f0e8; letter-spacing: 4px; }
-  .pr-master-box { text-align: center; margin-bottom: 10px; border: 1px solid #3d7a1e; border-radius: 8px; padding: 8px; background: #0b2208; }
-  .pr-master-label { color: #daa520; font-size: 9px; letter-spacing: 2px; margin-bottom: 3px; }
-  .pr-master-name { font-family: 'Cinzel', serif; font-size: 18px; color: #daa520; font-weight: 700; }
-  .pr-amount-box { border: 1px solid #3d7a1e; border-radius: 8px; padding: 14px 10px 10px; background: #071407; text-align: center; margin-bottom: 10px; }
-  .pr-amount { font-family: 'Cinzel', serif; font-size: 42px; font-weight: 900; color: #c8e832; line-height: 1; }
-  .pr-amount-sub { color: #5a9a5a; font-size: 8px; letter-spacing: 2px; margin-top: 5px; }
-  .pr-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 10px; }
-  .pr-stat { border: 1px solid #3d7a1e; border-radius: 6px; padding: 8px 4px; background: #0b2208; text-align: center; }
-  .pr-stat-val { font-family: 'Cinzel', serif; font-size: 14px; color: #c8e832; font-weight: 700; }
-  .pr-stat-label { color: #5a9a5a; font-size: 8px; margin-top: 2px; letter-spacing: 1px; }
-  .pr-winners-box { border: 1px solid #3d7a1e; border-radius: 8px; overflow: hidden; background: #0b2208; }
-  .pr-winners-header { text-align: center; padding: 6px; border-bottom: 1px solid #3d7a1e; color: #daa520; font-size: 9px; letter-spacing: 2px; background: #0e2a08; }
-  .pr-winner-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 12px; border-bottom: 1px solid #152e0f; }
-  .pr-winner-row:last-child { border-bottom: none; }
-  .pr-winner-left { display: flex; align-items: center; gap: 6px; color: #a0c8a0; font-size: 12px; }
-  .pr-winner-check { color: #4aaa4a; font-size: 13px; }
-  .pr-win-badge { color: #c8e832; font-size: 11px; font-weight: 600; letter-spacing: 1px; }
+  .field-hint { font-size: 10px; color: #555; margin-top: 3px; }
+
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+  .color-row { display: flex; align-items: center; gap: 8px; }
+  .color-row input[type=color] { width: 36px; height: 28px; border: 1px solid #333; border-radius: 4px; background: none; cursor: pointer; padding: 2px; }
+  .color-row input[type=range] { flex: 1; }
+  .color-row span { font-size: 11px; color: #888; min-width: 30px; }
+
+  .btn { width: 100%; padding: 10px; border-radius: 8px; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 1px; cursor: pointer; border: none; margin-bottom: 8px; }
+  .btn-green { background: #1a4a0a; border: 1px solid #4a9a2a; color: #c8e832; }
+  .btn-green:hover { background: #2a6a1a; }
+  .btn-gold { background: linear-gradient(135deg, #daa520, #b8860b); color: #071407; font-weight: 700; }
+  .btn-gold:hover { background: linear-gradient(135deg, #f0b830, #daa520); }
+  .btn-gold:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .download-note { font-size: 10px; color: #555; text-align: center; }
+
+  /* CANVAS AREA */
+  .canvas-area { display: flex; flex-direction: column; gap: 10px; }
+  .canvas-label { font-size: 11px; color: #666; letter-spacing: 1px; }
+
+  .canvas-wrap {
+    position: relative;
+    background: #111;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #333;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .no-template {
+    text-align: center; color: #444; padding: 40px;
+  }
+  .no-template div { font-size: 40px; margin-bottom: 12px; }
+  .no-template p { font-size: 13px; }
+
+  #preview-container {
+    position: relative;
+    display: none;
+  }
+  #bg-image {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* DRAGGABLE TEXT FIELDS */
+  .text-overlay {
+    position: absolute;
+    cursor: move;
+    user-select: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px dashed rgba(255,255,255,0.3);
+    transition: border-color 0.2s;
+    white-space: nowrap;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+  }
+  .text-overlay:hover { border-color: #daa520; }
+  .text-overlay.active { border-color: #daa520; border-style: solid; }
+  .text-overlay .drag-hint {
+    position: absolute; top: -18px; left: 0;
+    font-size: 9px; color: #daa520; white-space: nowrap;
+    display: none; font-family: 'Open Sans', sans-serif;
+    font-weight: 400; text-shadow: none;
+  }
+  .text-overlay:hover .drag-hint { display: block; }
+
+  .winners-overlay {
+    position: absolute;
+    cursor: move;
+    user-select: none;
+    border: 1px dashed rgba(255,255,255,0.3);
+    border-radius: 4px;
+    padding: 4px 8px;
+  }
+  .winners-overlay:hover { border-color: #daa520; }
+  .winner-line {
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'Open Sans', sans-serif;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+    white-space: nowrap;
+  }
+
+  .export-hide { display: none !important; }
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="form-panel">
-    <h2>⚙ GEGEVENS INVULLEN</h2>
-    <div class="field"><label>TIP MASTER NAAM</label><input id="i-naam" type="text" value="Kees Nakoersen" /></div>
-    <div class="field"><label>TOTALE WINST (bijv. 293,00)</label><input id="i-bedrag" type="text" value="293,00" /></div>
-    <div class="field"><label>WINRATE (bijv. 64%)</label><input id="i-winrate" type="text" value="64%" /></div>
-    <div class="field"><label>AANTAL TIPS</label><input id="i-tips" type="text" value="12" /></div>
-    <div class="field">
-      <label>WINNAARS (één per regel)</label>
-      <textarea id="i-winners">Black Thunder - 14:30 Ascot
-Golden Storm - 16:00 Cheltenham
-Royal Flash - 17:45 Newmarket</textarea>
-      <div class="field-hint">Elke nieuwe regel wordt een aparte winnaar</div>
+
+<h1>⚙ TIP MASTERS — TEMPLATE EDITOR</h1>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+
+    <!-- UPLOAD -->
+    <div class="panel">
+      <h3>1. UPLOAD JE TEMPLATE</h3>
+      <div class="upload-area" onclick="document.getElementById('file-input').click()">
+        <input type="file" id="file-input" accept="image/*" onchange="loadImage(event)" />
+        <div class="upload-icon">🖼</div>
+        <div class="upload-text">Klik om je Canva afbeelding te uploaden<br><span>PNG, JPG of WEBP</span></div>
+      </div>
     </div>
-    <button class="btn-update" onclick="update()">↺ PREVIEW BIJWERKEN</button>
-    <button class="btn-download" id="dl-btn" onclick="download()">⬇ DOWNLOAD ALS AFBEELDING</button>
-    <div class="download-note">Wordt opgeslagen als PNG — klaar voor social media</div>
+
+    <!-- GEGEVENS -->
+    <div class="panel">
+      <h3>2. GEGEVENS INVULLEN</h3>
+      <div class="field"><label>TIP MASTER NAAM</label><input id="i-naam" type="text" value="Kees Nakoersen" oninput="updateText('naam', this.value)" /></div>
+      <div class="field"><label>TOTALE WINST</label><input id="i-bedrag" type="text" value="€293,00" oninput="updateText('bedrag', this.value)" /></div>
+      <div class="field-row">
+        <div class="field"><label>WINRATE</label><input id="i-winrate" type="text" value="64%" oninput="updateText('winrate', this.value)" /></div>
+        <div class="field"><label>TIPS</label><input id="i-tips" type="text" value="12" oninput="updateText('tips', this.value)" /></div>
+      </div>
+      <div class="field">
+        <label>WINNAARS (één per regel)</label>
+        <textarea id="i-winners" oninput="updateWinners()">Black Thunder - 14:30
+Golden Storm - 16:00
+Royal Flash - 17:45</textarea>
+        <div class="field-hint">Elke regel = één winnaar</div>
+      </div>
+    </div>
+
+    <!-- STIJL -->
+    <div class="panel">
+      <h3>3. TEKSTSTIJL</h3>
+      <div class="field">
+        <label>NAAM KLEUR & GROOTTE</label>
+        <div class="color-row">
+          <input type="color" value="#daa520" oninput="updateStyle('naam', 'color', this.value)" />
+          <input type="range" min="12" max="60" value="28" oninput="updateStyle('naam', 'fontSize', this.value+'px'); this.nextElementSibling.textContent=this.value+'px'" />
+          <span>28px</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>BEDRAG KLEUR & GROOTTE</label>
+        <div class="color-row">
+          <input type="color" value="#c8e832" oninput="updateStyle('bedrag', 'color', this.value)" />
+          <input type="range" min="20" max="80" value="48" oninput="updateStyle('bedrag', 'fontSize', this.value+'px'); this.nextElementSibling.textContent=this.value+'px'" />
+          <span>48px</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>WINRATE KLEUR & GROOTTE</label>
+        <div class="color-row">
+          <input type="color" value="#c8e832" oninput="updateStyle('winrate', 'color', this.value)" />
+          <input type="range" min="12" max="48" value="22" oninput="updateStyle('winrate', 'fontSize', this.value+'px'); this.nextElementSibling.textContent=this.value+'px'" />
+          <span>22px</span>
+        </div>
+      </div>
+      <div class="field">
+        <label>WINNAARS KLEUR & GROOTTE</label>
+        <div class="color-row">
+          <input type="color" value="#a0c8a0" oninput="updateStyle('winners', 'color', this.value)" />
+          <input type="range" min="10" max="36" value="16" oninput="updateStyle('winners', 'fontSize', this.value+'px'); this.nextElementSibling.textContent=this.value+'px'" />
+          <span>16px</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOWNLOAD -->
+    <div class="panel">
+      <h3>4. EXPORTEREN</h3>
+      <button class="btn btn-gold" id="dl-btn" onclick="download()" disabled>⬇ DOWNLOAD ALS PNG</button>
+      <div class="download-note">Upload eerst een template</div>
+    </div>
+
   </div>
-  <div class="pr-wrap" id="card">
-    <div class="pr-inner">
-      <div class="pr-logo"><div class="pr-logo-circle">T</div></div>
-      <div class="pr-title-box"><div class="pr-title">PROFIT RECAP</div></div>
-      <div class="pr-master-box">
-        <div class="pr-master-label">✦ TIP MASTER ✦</div>
-        <div class="pr-master-name" id="d-naam">Kees Nakoersen</div>
-        <div style="color:#daa520;font-size:9px;margin-top:3px;">✦</div>
+
+  <!-- PREVIEW -->
+  <div class="canvas-area">
+    <div class="canvas-label">LIVE PREVIEW — sleep de teksten naar de juiste plek</div>
+    <div class="canvas-wrap" id="canvas-wrap">
+      <div class="no-template" id="no-template">
+        <div>🖼</div>
+        <p>Upload je Canva template om te beginnen</p>
       </div>
-      <div class="pr-amount-box">
-        <div class="pr-amount" id="d-bedrag">€293,00</div>
-        <div class="pr-amount-sub">TOTALE WINST ALS JE ALLE TIPS SPEELDE</div>
-      </div>
-      <div class="pr-stats">
-        <div class="pr-stat"><div style="font-size:18px;">🏆</div></div>
-        <div class="pr-stat"><div class="pr-stat-val" id="d-tips">12</div><div class="pr-stat-label">TIPS</div></div>
-        <div class="pr-stat"><div class="pr-stat-val" id="d-winrate">64%</div><div class="pr-stat-label">WINRATE</div></div>
-      </div>
-      <div class="pr-winners-box">
-        <div class="pr-winners-header">✦ WINNAARS ✦</div>
-        <div id="d-winners">
-          <div class="pr-winner-row"><div class="pr-winner-left"><span class="pr-winner-check">✔</span><span>Black Thunder - 14:30 Ascot</span></div><span class="pr-win-badge">WIN</span></div>
-          <div class="pr-winner-row"><div class="pr-winner-left"><span class="pr-winner-check">✔</span><span>Golden Storm - 16:00 Cheltenham</span></div><span class="pr-win-badge">WIN</span></div>
-          <div class="pr-winner-row"><div class="pr-winner-left"><span class="pr-winner-check">✔</span><span>Royal Flash - 17:45 Newmarket</span></div><span class="pr-win-badge">WIN</span></div>
+      <div id="preview-container">
+        <img id="bg-image" src="" alt="template" />
+        <div class="text-overlay" id="ov-naam" style="top:20%;left:25%;color:#daa520;font-size:28px;">
+          <div class="drag-hint">sleep mij</div>
+          <span id="t-naam">Kees Nakoersen</span>
+        </div>
+        <div class="text-overlay" id="ov-bedrag" style="top:38%;left:20%;color:#c8e832;font-size:48px;">
+          <div class="drag-hint">sleep mij</div>
+          <span id="t-bedrag">€293,00</span>
+        </div>
+        <div class="text-overlay" id="ov-winrate" style="top:58%;left:55%;color:#c8e832;font-size:22px;">
+          <div class="drag-hint">sleep mij</div>
+          <span id="t-winrate">64%</span>
+        </div>
+        <div class="text-overlay" id="ov-tips" style="top:58%;left:30%;color:#c8e832;font-size:22px;">
+          <div class="drag-hint">sleep mij</div>
+          <span id="t-tips">12</span>
+        </div>
+        <div class="winners-overlay" id="ov-winners" style="top:70%;left:15%;">
+          <div class="drag-hint" style="position:absolute;top:-18px;left:0;font-size:9px;color:#daa520;display:none;">sleep mij</div>
+          <div id="t-winners"></div>
         </div>
       </div>
     </div>
   </div>
+
 </div>
+
 <script>
-function update() {
-  document.getElementById('d-naam').textContent = document.getElementById('i-naam').value;
-  document.getElementById('d-bedrag').textContent = '€' + document.getElementById('i-bedrag').value;
-  document.getElementById('d-winrate').textContent = document.getElementById('i-winrate').value;
-  document.getElementById('d-tips').textContent = document.getElementById('i-tips').value;
+// Load image
+function loadImage(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const img = document.getElementById('bg-image');
+    img.src = ev.target.result;
+    img.onload = function() {
+      document.getElementById('no-template').style.display = 'none';
+      document.getElementById('preview-container').style.display = 'block';
+      document.getElementById('dl-btn').disabled = false;
+      document.querySelector('.download-note').textContent = 'Klaar voor export!';
+      updateWinners();
+    };
+  };
+  reader.readAsDataURL(file);
+}
+
+// Update text
+function updateText(id, val) {
+  document.getElementById('t-' + id).textContent = val;
+}
+
+// Update winners
+function updateWinners() {
   const lines = document.getElementById('i-winners').value.split('\n').map(w => w.trim()).filter(Boolean);
-  document.getElementById('d-winners').innerHTML = lines.map((w, i) => `
-    <div class="pr-winner-row" style="${i < lines.length-1 ? '' : 'border-bottom:none'}">
-      <div class="pr-winner-left"><span class="pr-winner-check">✔</span><span>${w}</span></div>
-      <span class="pr-win-badge">WIN</span>
+  const color = document.getElementById('ov-winners').style.color || '#a0c8a0';
+  const size = document.getElementById('ov-winners').style.fontSize || '16px';
+  document.getElementById('t-winners').innerHTML = lines.map(w => `
+    <div class="winner-line" style="color:${color};font-size:${size};margin-bottom:4px;">
+      <span style="color:#4aaa4a;">✔</span><span>${w}</span><span style="margin-left:12px;color:#c8e832;font-weight:700;">WIN</span>
     </div>
   `).join('');
 }
+
+// Update style
+function updateStyle(id, prop, val) {
+  const el = document.getElementById('ov-' + id);
+  el.style[prop] = val;
+  if (id === 'winners') updateWinners();
+}
+
+// Draggable
+function makeDraggable(el) {
+  let startX, startY, startLeft, startTop;
+  el.addEventListener('mousedown', function(e) {
+    if (e.target.tagName === 'INPUT') return;
+    e.preventDefault();
+    const rect = el.parentElement.getBoundingClientRect();
+    startX = e.clientX;
+    startY = e.clientY;
+    startLeft = el.offsetLeft;
+    startTop = el.offsetTop;
+    el.classList.add('active');
+
+    function onMove(e) {
+      const dx = e.clientX - startX;
+      const dy = e.clientY - startY;
+      el.style.left = Math.max(0, startLeft + dx) + 'px';
+      el.style.top = Math.max(0, startTop + dy) + 'px';
+    }
+    function onUp() {
+      el.classList.remove('active');
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+
+  // Touch support
+  el.addEventListener('touchstart', function(e) {
+    const touch = e.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+    startLeft = el.offsetLeft;
+    startTop = el.offsetTop;
+    function onMove(e) {
+      const t = e.touches[0];
+      el.style.left = Math.max(0, startLeft + t.clientX - startX) + 'px';
+      el.style.top = Math.max(0, startTop + t.clientY - startY) + 'px';
+    }
+    function onUp() {
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', onUp);
+    }
+    document.addEventListener('touchmove', onMove, { passive: true });
+    document.addEventListener('touchend', onUp);
+  });
+}
+
+// Init draggables
+['ov-naam','ov-bedrag','ov-winrate','ov-tips','ov-winners'].forEach(id => {
+  makeDraggable(document.getElementById(id));
+});
+
+// Download
 async function download() {
   const btn = document.getElementById('dl-btn');
   btn.disabled = true;
   btn.textContent = '⏳ Bezig...';
+
+  // Hide dashed borders
+  document.querySelectorAll('.text-overlay, .winners-overlay').forEach(el => {
+    el.style.border = 'none';
+  });
+  document.querySelectorAll('.drag-hint').forEach(el => el.style.display = 'none');
+
   try {
-    const canvas = await html2canvas(document.getElementById('card'), { backgroundColor: '#071407', scale: 3, useCORS: true, logging: false });
+    const container = document.getElementById('preview-container');
+    const canvas = await html2canvas(container, {
+      backgroundColor: null,
+      scale: 3,
+      useCORS: true,
+      allowTaint: true,
+      logging: false
+    });
     const link = document.createElement('a');
     link.download = 'profit-recap-tipmasters.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
-  } catch(e) { alert('Download mislukt, probeer een screenshot.'); }
+  } catch(e) {
+    alert('Download mislukt. Probeer een screenshot.');
+  }
+
+  // Restore borders
+  document.querySelectorAll('.text-overlay, .winners-overlay').forEach(el => {
+    el.style.border = '1px dashed rgba(255,255,255,0.3)';
+  });
+
   btn.disabled = false;
-  btn.textContent = '⬇ DOWNLOAD ALS AFBEELDING';
+  btn.textContent = '⬇ DOWNLOAD ALS PNG';
 }
 </script>
 </body>
