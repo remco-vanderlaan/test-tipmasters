@@ -11,25 +11,24 @@ body { background: #0f0f0f; font-family: 'Open Sans', sans-serif; color: #ccc; f
 
 /* TOPBAR */
 .topbar { background: #1a1a1a; border-bottom: 1px solid #2a2a2a; height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; gap: 10px; }
-.topbar-left { display: flex; align-items: center; gap: 10px; }
 .app-title { font-family: 'Cinzel', serif; color: #daa520; font-size: 13px; letter-spacing: 1px; white-space: nowrap; }
-.preset-select { background: #111; border: 1px solid #333; border-radius: 4px; color: #ddd; padding: 4px 8px; font-size: 11px; height: 26px; min-width: 140px; }
-.tb-btn { background: #222; border: 1px solid #333; border-radius: 4px; color: #aaa; padding: 0 8px; height: 26px; cursor: pointer; font-size: 11px; white-space: nowrap; }
+.preset-select { background: #111; border: 1px solid #333; border-radius: 4px; color: #ddd; padding: 4px 8px; font-size: 11px; height: 26px; min-width: 150px; }
+.tb-btn { background: #222; border: 1px solid #333; border-radius: 4px; color: #aaa; padding: 0 10px; height: 26px; cursor: pointer; font-size: 11px; white-space: nowrap; transition: all 0.15s; }
 .tb-btn:hover { background: #2a2a2a; color: #ddd; }
 .tb-btn.gold { background: linear-gradient(135deg,#b8860b,#daa520); color: #111; font-weight: 700; border: none; }
 .tb-btn.gold:hover { background: linear-gradient(135deg,#daa520,#f0b830); }
 .tb-btn.gold:disabled { opacity: 0.4; cursor: not-allowed; }
 .tb-btn.green { background: #1a3a0a; border-color: #3a7a1a; color: #8de832; }
-.tb-btn.green:hover { background: #2a5a1a; }
 
 /* LAYOUT */
-.layout { display: grid; grid-template-columns: 320px 1fr; height: calc(100vh - 40px); }
+.layout { display: grid; grid-template-columns: 300px 1fr; height: calc(100vh - 40px); }
 
 /* SIDEBAR */
 .sidebar { background: #151515; border-right: 1px solid #222; overflow-y: auto; }
-.sidebar::-webkit-scrollbar { width: 3px; } .sidebar::-webkit-scrollbar-thumb { background: #333; }
+.sidebar::-webkit-scrollbar { width: 3px; }
+.sidebar::-webkit-scrollbar-thumb { background: #333; }
 
-/* ACCORDION SECTION */
+/* ACCORDION */
 .acc { border-bottom: 1px solid #1e1e1e; }
 .acc-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; cursor: pointer; background: #181818; user-select: none; }
 .acc-header:hover { background: #1e1e1e; }
@@ -39,115 +38,144 @@ body { background: #0f0f0f; font-family: 'Open Sans', sans-serif; color: #ccc; f
 .acc-body { padding: 10px 12px; display: none; }
 .acc-body.open { display: block; }
 
-/* FORM ELEMENTS */
+/* FORM */
 .row { display: flex; align-items: center; gap: 6px; margin-bottom: 7px; flex-wrap: wrap; }
-.row label { font-size: 9px; color: #666; letter-spacing: 0.5px; white-space: nowrap; }
 .lbl { font-size: 9px; color: #555; margin-bottom: 2px; display: block; letter-spacing: 0.5px; }
-
-input[type=text], input[type=number], select, textarea {
-  background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 3px;
-  color: #ddd; padding: 3px 6px; font-size: 11px; font-family: inherit; outline: none;
-}
+input[type=text], input[type=number], select, textarea { background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 3px; color: #ddd; padding: 3px 6px; font-size: 11px; font-family: inherit; outline: none; }
 input[type=text]:focus, input[type=number]:focus, select:focus, textarea:focus { border-color: #daa520; }
-input[type=number] { width: 52px; text-align: center; -moz-appearance: textfield; }
+input[type=number] { width: 54px; text-align: center; -moz-appearance: textfield; }
 input[type=number]::-webkit-inner-spin-button { opacity: 0; }
-textarea { width: 100%; resize: vertical; min-height: 50px; font-size: 11px; }
+textarea { width: 100%; resize: vertical; min-height: 46px; font-size: 11px; }
 input[type=color] { width: 26px; height: 22px; border: 1px solid #333; border-radius: 3px; padding: 1px; background: none; cursor: pointer; }
-input[type=range] { accent-color: #daa520; height: 3px; }
 select { height: 24px; }
-
-.num-lbl { font-size: 9px; color: #444; }
-
-.full-input { width: 100%; padding: 5px 8px; background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 3px; color: #ddd; font-size: 11px; }
+.full-input { width: 100%; padding: 5px 8px; background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 3px; color: #ddd; font-size: 11px; margin-bottom: 5px; }
 .full-input:focus { border-color: #daa520; outline: none; }
+.num-lbl { font-size: 9px; color: #444; }
+label.lbl-inline { font-size: 9px; color: #666; white-space: nowrap; }
 
-/* FIELD SELECTOR */
-.field-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
-.ftab { padding: 4px 8px; background: #111; border: 1px solid #252525; border-radius: 3px; cursor: pointer; font-size: 10px; color: #888; transition: all 0.15s; }
+/* TEMPLATE SWITCHER */
+.tpl-tabs { display: flex; gap: 4px; margin-bottom: 10px; }
+.tpl-tab { flex: 1; padding: 6px 4px; background: #111; border: 1px solid #252525; border-radius: 4px; cursor: pointer; font-size: 10px; color: #777; text-align: center; transition: all 0.15s; }
+.tpl-tab:hover { border-color: #444; color: #bbb; }
+.tpl-tab.active { background: #1f1a0a; border-color: #daa520; color: #daa520; font-weight: 600; }
+
+/* FIELD TABS */
+.field-tabs { display: flex; flex-wrap: wrap; gap: 3px; margin-bottom: 8px; }
+.ftab { padding: 3px 7px; background: #111; border: 1px solid #252525; border-radius: 3px; cursor: pointer; font-size: 10px; color: #777; transition: all 0.15s; }
 .ftab:hover { border-color: #444; color: #bbb; }
 .ftab.active { background: #1f1a0a; border-color: #daa520; color: #daa520; }
 
-/* FONT PICKER */
+/* FONT GRID */
 .font-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; margin-bottom: 8px; }
-.fopt { padding: 5px 4px; background: #111; border: 1px solid #252525; border-radius: 3px; cursor: pointer; text-align: center; font-size: 11px; color: #888; transition: all 0.15s; }
+.fopt { padding: 5px 3px; background: #111; border: 1px solid #252525; border-radius: 3px; cursor: pointer; text-align: center; font-size: 11px; color: #777; transition: all 0.15s; }
 .fopt:hover { border-color: #444; }
 .fopt.active { border-color: #daa520; background: #1f1a0a; color: #daa520; }
 
 /* STYLE BUTTONS */
-.style-row { display: flex; gap: 4px; margin-bottom: 7px; }
-.sbtn { flex: 1; padding: 5px; background: #111; border: 1px solid #252525; border-radius: 3px; cursor: pointer; font-size: 11px; color: #888; text-align: center; transition: all 0.15s; }
+.style-row { display: flex; gap: 4px; margin-bottom: 7px; flex-wrap: wrap; }
+.sbtn { padding: 5px 7px; background: #111; border: 1px solid #252525; border-radius: 3px; cursor: pointer; font-size: 10px; color: #777; text-align: center; transition: all 0.15s; }
 .sbtn:hover { border-color: #444; }
 .sbtn.active { border-color: #daa520; background: #1f1a0a; color: #daa520; }
 
-/* TEMPLATE THUMBS */
-.thumb-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
-.thumb { border-radius: 4px; overflow: hidden; cursor: pointer; border: 1.5px solid #2a2a2a; aspect-ratio: 1; background: #1a1a1a; position: relative; transition: border-color 0.15s; }
-.thumb:hover, .thumb.active { border-color: #daa520; }
-.thumb img { width: 100%; height: 100%; object-fit: cover; }
-.thumb .tlbl { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.75); font-size: 8px; color: #daa520; padding: 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.thumb .tdel { position: absolute; top: 2px; right: 2px; background: rgba(180,0,0,0.8); border: none; color: #fff; width: 14px; height: 14px; border-radius: 50%; font-size: 8px; cursor: pointer; display: none; align-items: center; justify-content: center; }
-.thumb:hover .tdel { display: flex; }
+.divider { height: 1px; background: #1e1e1e; margin: 7px 0; }
 
-/* UPLOAD */
-.upload-box { border: 1.5px dashed #2a2a2a; border-radius: 6px; padding: 14px; text-align: center; cursor: pointer; transition: all 0.2s; margin-bottom: 8px; }
-.upload-box:hover { border-color: #daa520; background: #1a1a0a; }
-.upload-box input { display: none; }
-.upload-box p { font-size: 10px; color: #555; margin-top: 4px; }
-.upload-box b { color: #daa520; }
-
-/* STATUS */
-.status { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 10px; font-size: 9px; }
-.status.ok { background: #0a2a0a; color: #4aaa4a; border: 1px solid #2a5a2a; }
-.status.empty { background: #1a1a1a; color: #555; border: 1px solid #2a2a2a; }
+/* TIP BLOCK CONTROLS */
+.tip-block-ctrl { background: #111; border: 1px solid #222; border-radius: 5px; padding: 8px; margin-bottom: 8px; }
+.tip-block-ctrl .tip-hdr { font-size: 10px; color: #daa520; margin-bottom: 6px; letter-spacing: 0.5px; }
 
 /* CANVAS */
-.canvas-area { background: #0a0a0a; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px; overflow: auto; }
+.canvas-area { background: #0a0a0a; display: flex; flex-direction: column; align-items: center; padding: 16px; overflow: auto; }
 .canvas-label { font-size: 10px; color: #444; margin-bottom: 10px; letter-spacing: 1px; }
 
-.canvas-wrap { position: relative; background: #111; border-radius: 8px; overflow: hidden; border: 1px solid #222; display: flex; align-items: center; justify-content: center; min-width: 200px; min-height: 200px; }
-.empty-canvas { text-align: center; color: #2a2a2a; padding: 80px 40px; }
-.empty-canvas div { font-size: 40px; margin-bottom: 12px; }
-.empty-canvas p { font-size: 12px; line-height: 1.7; }
+/* ===================== CARD PREVIEW ===================== */
+.card-preview { position: relative; width: 540px; flex-shrink: 0; border-radius: 10px; overflow: hidden; }
 
-#preview-container { position: relative; display: none; }
-#bg-image { display: block; max-width: 540px; max-height: calc(100vh - 120px); width: auto; height: auto; }
+/* === PROFIT RECAP TEMPLATE === */
+.tpl-recap { background: #071407; width: 540px; min-height: 540px; font-family: 'Open Sans', sans-serif; position: relative; border: 2px solid #2d5e1e; }
+.tpl-recap::before { content:''; position:absolute; inset:0; background: radial-gradient(ellipse 80% 40% at 10% 0%,#1a4a0a44 0%,transparent 60%), radial-gradient(ellipse 60% 50% at 90% 100%,#0d3a0555 0%,transparent 60%); pointer-events:none; }
+.recap-inner { position:relative; z-index:1; padding: 28px 30px 24px; }
+.recap-logo { text-align:center; margin-bottom:10px; }
+.recap-logo-circle { display:inline-flex; align-items:center; justify-content:center; width:54px; height:54px; border-radius:50%; background:linear-gradient(145deg,#b8860b,#daa520,#8b6914); border:2px solid #daa520; font-family:'Cinzel',serif; font-size:24px; font-weight:900; color:#071407; }
+.recap-title-box { text-align:center; margin-bottom:14px; border:1.5px solid #3d7a1e; border-radius:8px; padding:8px 20px; background:linear-gradient(180deg,#0e2a08 0%,#071407 100%); position:relative; }
+.recap-title-box::before { content:'✦'; color:#daa520; font-size:11px; position:absolute; left:12px; top:50%; transform:translateY(-50%); }
+.recap-title-box::after { content:'✦'; color:#daa520; font-size:11px; position:absolute; right:12px; top:50%; transform:translateY(-50%); }
+.recap-title { font-family:'Cinzel',serif; font-weight:900; color:#f0f0e8; letter-spacing:5px; }
+.recap-master-box { text-align:center; margin-bottom:14px; border:1px solid #3d7a1e; border-radius:8px; padding:10px; background:#0b2208; }
+.recap-master-label { color:#daa520; letter-spacing:2px; margin-bottom:3px; }
+.recap-master-name { font-family:'Cinzel',serif; color:#daa520; font-weight:700; }
+.recap-amount-box { border:1px solid #3d7a1e; border-radius:8px; padding:16px 12px 12px; background:#071407; text-align:center; margin-bottom:12px; }
+.recap-amount { font-family:'Cinzel',serif; font-weight:900; color:#c8e832; line-height:1; }
+.recap-amount-sub { color:#5a9a5a; letter-spacing:2px; margin-top:5px; }
+.recap-stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:12px; }
+.recap-stat { border:1px solid #3d7a1e; border-radius:6px; padding:10px 6px; background:#0b2208; text-align:center; }
+.recap-stat-val { font-family:'Cinzel',serif; color:#c8e832; font-weight:700; }
+.recap-stat-label { color:#5a9a5a; margin-top:2px; letter-spacing:1px; }
+.recap-winners-box { border:1px solid #3d7a1e; border-radius:8px; overflow:hidden; background:#0b2208; }
+.recap-winners-header { text-align:center; padding:6px; border-bottom:1px solid #3d7a1e; color:#daa520; letter-spacing:2px; background:#0e2a08; }
+.recap-winner-row { display:flex; justify-content:space-between; align-items:center; padding:8px 14px; border-bottom:1px solid #152e0f; }
+.recap-winner-row:last-child { border-bottom:none; }
+.recap-winner-left { display:flex; align-items:center; gap:8px; }
+.recap-winner-check { color:#4aaa4a; }
+.recap-win-badge { color:#c8e832; font-weight:700; letter-spacing:1px; }
 
-/* OVERLAYS */
-.ov { position: absolute; cursor: move; user-select: none; }
-.ov .ov-border { position: absolute; inset: 0; border: 1px dashed rgba(218,165,32,0); border-radius: 2px; transition: border-color 0.15s; pointer-events: none; }
-.ov:hover .ov-border, .ov.selected .ov-border { border-color: rgba(218,165,32,0.6); }
-.ov.selected .ov-border { border-color: #daa520; }
-.ov-text { overflow: hidden; line-height: 1.2; white-space: nowrap; }
-.ov-block { overflow: hidden; }
-.ov-winners .winner-row { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-.resize-dot { position: absolute; bottom: -3px; right: -3px; width: 8px; height: 8px; background: #daa520; border-radius: 50%; cursor: se-resize; opacity: 0; transition: opacity 0.15s; z-index: 10; }
-.ov.selected .resize-dot, .ov:hover .resize-dot { opacity: 1; }
+/* === MASTER DUO TIP TEMPLATE === */
+.tpl-duo { width:540px; min-height:540px; position:relative; background:#1a0a05; font-family:'Open Sans',sans-serif; overflow:hidden; }
+.duo-bg { position:absolute; inset:0; background: radial-gradient(ellipse 100% 100% at 50% 50%, #2a1208 0%, #0d0604 100%); }
+.duo-inner { position:relative; z-index:1; padding:24px 20px 20px; }
+.duo-logo { text-align:center; margin-bottom:6px; }
+.duo-logo-circle { display:inline-flex; align-items:center; justify-content:center; width:54px; height:54px; border-radius:50%; background:linear-gradient(145deg,#b8860b,#daa520,#8b6914); border:2px solid #daa520; font-family:'Cinzel',serif; font-size:22px; font-weight:900; color:#1a0a05; }
+.duo-main-title { text-align:center; font-family:'Cinzel',serif; font-weight:900; color:#f0e8d8; letter-spacing:3px; margin-bottom:16px; }
+.duo-tips-container { display:flex; flex-direction:column; gap:14px; }
+.duo-tip-block { border-radius:12px; padding:14px 16px; display:flex; align-items:center; gap:14px; position:relative; overflow:hidden; }
+.duo-tip-block::before { content:''; position:absolute; inset:0; border-radius:12px; border:2px solid transparent; background:linear-gradient(135deg,#ff8c00,#0066ff,#ff8c00) border-box; -webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0); -webkit-mask-composite:destination-out; mask-composite:exclude; }
+.duo-avatar { width:64px; height:64px; border-radius:50%; background:linear-gradient(145deg,#b8860b,#daa520); border:3px solid #daa520; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-family:'Cinzel',serif; font-size:20px; font-weight:900; color:#1a0a05; overflow:hidden; }
+.duo-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+.duo-tip-info { flex:1; min-width:0; }
+.duo-tipper-name { font-family:'Cinzel',serif; font-weight:700; color:#daa520; margin-bottom:3px; }
+.duo-horse-name { font-family:'Cinzel',serif; font-weight:900; color:#f0f0e8; margin-bottom:3px; text-transform:uppercase; }
+.duo-race-info { color:#aaa; letter-spacing:1px; }
+.duo-date { text-align:center; font-family:'Open Sans',sans-serif; font-weight:700; color:#f0e8d8; margin-top:16px; }
+.duo-footer { text-align:center; color:#555; margin-top:10px; }
 
-/* QUOTE BLOCK */
-.ov-quote { border-radius: 6px; padding: 10px 14px; }
-.q-mark { font-size: 28px; line-height: 0.9; font-family: Georgia, serif; opacity: 0.7; }
-.q-text { font-style: italic; line-height: 1.5; margin: 4px 0; }
-.q-author { font-size: 10px; opacity: 0.7; margin-top: 4px; }
+/* === MASTER TIP TEMPLATE === */
+.tpl-master { width:540px; min-height:540px; position:relative; font-family:'Open Sans',sans-serif; overflow:hidden; }
+.master-bg { position:absolute; inset:0; background:radial-gradient(ellipse 120% 120% at 50% 30%,#4a1030 0%,#1a0418 60%,#0d0210 100%); }
+.master-inner { position:relative; z-index:1; padding:24px 20px 20px; }
+.master-logo { text-align:center; margin-bottom:8px; }
+.master-logo-circle { display:inline-flex; align-items:center; justify-content:center; width:48px; height:48px; border-radius:50%; background:linear-gradient(145deg,#b8860b,#daa520,#8b6914); border:2px solid #daa520; font-family:'Cinzel',serif; font-size:20px; font-weight:900; color:#1a0418; }
+.master-banner { text-align:center; margin-bottom:16px; }
+.master-banner-inner { display:inline-block; padding:8px 28px; border-radius:6px; font-family:'Cinzel',serif; font-weight:700; letter-spacing:3px; border:1px solid #8b6914; }
+.master-circle-area { display:flex; justify-content:center; margin-bottom:16px; }
+.master-circle { width:200px; height:200px; border-radius:50%; background:linear-gradient(145deg,#3a0820,#1a0410); border:4px solid #daa520; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative; }
+.master-circle::after { content:''; position:absolute; inset:-8px; border-radius:50%; border:2px solid rgba(218,165,32,0.3); }
+.master-tipper { font-family:'Cinzel',serif; font-weight:700; color:#daa520; text-align:center; line-height:1.2; }
+.master-horse { font-family:'Cinzel',serif; font-weight:900; color:#f0f0e8; text-align:center; text-transform:uppercase; margin-bottom:4px; }
+.master-race { color:#aaa; text-align:center; letter-spacing:1px; margin-bottom:14px; }
+.master-odds-area { display:flex; justify-content:center; }
+.master-odds-box { border:2px solid #8b6914; border-radius:8px; padding:8px 28px; background:rgba(218,165,32,0.08); }
+.master-odds { font-family:'Cinzel',serif; font-weight:900; color:#daa520; }
+.master-footer-txt { text-align:center; color:#555; margin-top:12px; }
 
-/* DIVIDER */
-.divider { height: 1px; background: #1e1e1e; margin: 6px 0; }
+/* EDITABLE OVERLAY */
+.editable { cursor:pointer; border:1px dashed transparent; border-radius:2px; display:inline-block; transition:border-color 0.15s; }
+.editable:hover { border-color:rgba(218,165,32,0.4); }
+.editable.selected { border-color:#daa520 !important; outline:none; }
 </style>
 </head>
 <body>
 
 <!-- TOPBAR -->
 <div class="topbar">
-  <div class="topbar-left">
-    <div class="app-title">⚙ TIP MASTERS PRO</div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="app-title">⚙ TIP MASTERS ULTIMATE</div>
     <select class="preset-select" id="preset-select" onchange="loadPreset(this.value)">
-      <option value="">— Kies preset —</option>
+      <option value="">— Preset —</option>
     </select>
-    <button class="tb-btn green" onclick="savePreset()">💾 Preset opslaan</button>
-    <button class="tb-btn" onclick="deletePreset()">🗑 Verwijder</button>
+    <button class="tb-btn green" onclick="savePreset()">💾 Opslaan</button>
+    <button class="tb-btn" onclick="deletePreset()">🗑</button>
   </div>
   <div style="display:flex;gap:6px;align-items:center;">
-    <span id="tpl-status" class="status empty">Geen template</span>
-    <button class="tb-btn gold" id="dl-btn" onclick="download()" disabled>⬇ Download PNG</button>
+    <button class="tb-btn gold" id="dl-btn" onclick="download()">⬇ Download PNG</button>
   </div>
 </div>
 
@@ -156,179 +184,138 @@ select { height: 24px; }
   <!-- SIDEBAR -->
   <div class="sidebar">
 
-    <!-- TEMPLATE -->
+    <!-- TEMPLATE KIEZER -->
     <div class="acc">
       <div class="acc-header" onclick="toggleAcc(this)">
         <span class="acc-title">TEMPLATE</span>
         <span class="acc-arrow open">▼</span>
       </div>
       <div class="acc-body open">
-        <div class="upload-box" onclick="document.getElementById('file-input').click()">
-          <input type="file" id="file-input" accept="image/*" onchange="loadImage(event)" />
-          <div style="font-size:20px;">🖼</div>
-          <p>Klik om <b>PNG/JPG</b> te uploaden</p>
+        <div class="tpl-tabs">
+          <div class="tpl-tab active" onclick="switchTemplate('recap',this)">Profit Recap</div>
+          <div class="tpl-tab" onclick="switchTemplate('duo',this)">Master DUO</div>
+          <div class="tpl-tab" onclick="switchTemplate('master',this)">Master Tip</div>
         </div>
-        <div class="row">
-          <input type="text" id="tpl-name" placeholder="Template naam..." style="flex:1;" />
-          <button class="tb-btn green" onclick="saveTpl()">+ Opslaan</button>
+        <div id="tpl-recap-opts">
+          <span class="lbl">NAAM</span>
+          <input type="text" class="full-input" id="r-naam" value="Kees Nakoersen" oninput="updateRecap()" />
+          <span class="lbl">WINST</span>
+          <input type="text" class="full-input" id="r-bedrag" value="€293,00" oninput="updateRecap()" />
+          <div class="row">
+            <div style="flex:1;"><span class="lbl">WINRATE</span><input type="text" class="full-input" id="r-winrate" value="64%" oninput="updateRecap()" /></div>
+            <div style="flex:1;"><span class="lbl">TIPS</span><input type="text" class="full-input" id="r-tips" value="12" oninput="updateRecap()" /></div>
+          </div>
+          <span class="lbl">AANTAL WINNAARS</span>
+          <div class="row">
+            <select id="r-winner-count" onchange="updateRecap()" style="flex:1;">
+              <option value="1">1 winnaar</option>
+              <option value="2">2 winnaars</option>
+              <option value="3" selected>3 winnaars</option>
+              <option value="4">4 winnaars</option>
+              <option value="5">5 winnaars</option>
+            </select>
+          </div>
+          <div id="r-winner-inputs"></div>
         </div>
-        <div class="thumb-grid" id="thumb-grid">
-          <div style="color:#333;font-size:10px;grid-column:span 3;text-align:center;padding:8px;">Nog geen templates</div>
+        <div id="tpl-duo-opts" style="display:none;">
+          <span class="lbl">TITEL</span>
+          <input type="text" class="full-input" id="d-title" value="MASTER TIPS" oninput="updateDuo()" />
+          <span class="lbl">DATUM</span>
+          <input type="text" class="full-input" id="d-date" value="maandag 20 april" oninput="updateDuo()" />
+          <span class="lbl">AANTAL TIPS</span>
+          <select id="d-tip-count" onchange="updateDuo()" style="width:100%;margin-bottom:8px;">
+            <option value="2" selected>2 tips</option>
+            <option value="3">3 tips</option>
+          </select>
+          <div id="d-tip-inputs"></div>
+        </div>
+        <div id="tpl-master-opts" style="display:none;">
+          <span class="lbl">BANNER TEKST</span>
+          <input type="text" class="full-input" id="m-banner" value="MASTER TIP" oninput="updateMaster()" />
+          <span class="lbl">TIPPER NAAM</span>
+          <input type="text" class="full-input" id="m-tipper" value="Bjorn Better" oninput="updateMaster()" />
+          <span class="lbl">PAARD</span>
+          <input type="text" class="full-input" id="m-horse" value="J.KAGAN BRICK (10)" oninput="updateMaster()" />
+          <span class="lbl">RACE INFO</span>
+          <input type="text" class="full-input" id="m-race" value="BOLLNAS · RACE 6 - 18 APRIL" oninput="updateMaster()" />
+          <span class="lbl">ODDS</span>
+          <input type="text" class="full-input" id="m-odds" value="13.57" oninput="updateMaster()" />
         </div>
       </div>
     </div>
 
-    <!-- GEGEVENS -->
+    <!-- STIJL -->
     <div class="acc">
       <div class="acc-header" onclick="toggleAcc(this)">
-        <span class="acc-title">GEGEVENS</span>
+        <span class="acc-title">STIJL & KLEUREN</span>
         <span class="acc-arrow open">▼</span>
       </div>
       <div class="acc-body open">
-        <span class="lbl">NAAM</span>
-        <input type="text" class="full-input" id="i-naam" value="Kees Nakoersen" oninput="updateText('naam',this.value)" style="margin-bottom:6px;" />
-        <span class="lbl">WINST</span>
-        <input type="text" class="full-input" id="i-bedrag" value="€293,00" oninput="updateText('bedrag',this.value)" style="margin-bottom:6px;" />
-        <div class="row">
-          <div style="flex:1;"><span class="lbl">WINRATE</span><input type="text" class="full-input" id="i-winrate" value="64%" oninput="updateText('winrate',this.value)" /></div>
-          <div style="flex:1;"><span class="lbl">TIPS</span><input type="text" class="full-input" id="i-tips" value="12" oninput="updateText('tips',this.value)" /></div>
+        <div id="style-recap">
+          <span class="lbl">ACHTERGROND</span>
+          <div class="row"><label class="lbl-inline">Kleur</label><input type="color" id="rs-bg" value="#071407" oninput="applyRecapStyle()" /><label class="lbl-inline" style="margin-left:8px;">Kader</label><input type="color" id="rs-border" value="#2d5e1e" oninput="applyRecapStyle()" /></div>
+          <span class="lbl">TEKST KLEUREN</span>
+          <div class="row"><label class="lbl-inline">Accent</label><input type="color" id="rs-accent" value="#daa520" oninput="applyRecapStyle()" /><label class="lbl-inline" style="margin-left:8px;">Bedrag</label><input type="color" id="rs-amount" value="#c8e832" oninput="applyRecapStyle()" /></div>
+          <div class="row"><label class="lbl-inline">Naam</label><input type="color" id="rs-name" value="#daa520" oninput="applyRecapStyle()" /><label class="lbl-inline" style="margin-left:8px;">Sub</label><input type="color" id="rs-sub" value="#5a9a5a" oninput="applyRecapStyle()" /></div>
+          <span class="lbl">FONT GROOTTES</span>
+          <div class="row"><label class="lbl-inline">Titel</label><input type="number" id="rs-title-fs" value="22" min="10" max="60" oninput="applyRecapStyle()" /><label class="lbl-inline">Naam</label><input type="number" id="rs-name-fs" value="20" min="10" max="50" oninput="applyRecapStyle()" /></div>
+          <div class="row"><label class="lbl-inline">Bedrag</label><input type="number" id="rs-amount-fs" value="44" min="16" max="80" oninput="applyRecapStyle()" /><label class="lbl-inline">Winner</label><input type="number" id="rs-winner-fs" value="13" min="8" max="30" oninput="applyRecapStyle()" /></div>
         </div>
-        <span class="lbl" style="margin-top:4px;">WINNAARS (één per regel)</span>
-        <textarea id="i-winners" oninput="updateWinners()" style="margin-bottom:6px;">Black Thunder - 14:30
-Golden Storm - 16:00
-Royal Flash - 17:45</textarea>
-        <span class="lbl">QUOTE</span>
-        <textarea id="i-quote" oninput="updateQuote()" style="margin-bottom:6px;">"Consistent winnen begint met de juiste keuzes."</textarea>
-        <span class="lbl">QUOTE AUTEUR</span>
-        <input type="text" class="full-input" id="i-author" value="— Tip Masters" oninput="updateQuote()" />
+        <div id="style-duo" style="display:none;">
+          <span class="lbl">ACHTERGROND</span>
+          <div class="row"><label class="lbl-inline">Start</label><input type="color" id="ds-bg1" value="#2a1208" oninput="applyDuoStyle()" /><label class="lbl-inline" style="margin-left:8px;">Eind</label><input type="color" id="ds-bg2" value="#0d0604" oninput="applyDuoStyle()" /></div>
+          <span class="lbl">TIP BLOK</span>
+          <div class="row"><label class="lbl-inline">Achtergrond</label><input type="color" id="ds-block-bg" value="#1a0805" oninput="applyDuoStyle()" /></div>
+          <div class="row"><label class="lbl-inline">Neon 1</label><input type="color" id="ds-neon1" value="#ff8c00" oninput="applyDuoStyle()" /><label class="lbl-inline" style="margin-left:8px;">Neon 2</label><input type="color" id="ds-neon2" value="#0066ff" oninput="applyDuoStyle()" /></div>
+          <span class="lbl">TEKST</span>
+          <div class="row"><label class="lbl-inline">Accent</label><input type="color" id="ds-accent" value="#daa520" oninput="applyDuoStyle()" /><label class="lbl-inline" style="margin-left:8px;">Paard</label><input type="color" id="ds-horse" value="#f0f0e8" oninput="applyDuoStyle()" /></div>
+          <span class="lbl">FONT GROOTTES</span>
+          <div class="row"><label class="lbl-inline">Tipper</label><input type="number" id="ds-tipper-fs" value="16" min="8" max="40" oninput="applyDuoStyle()" /><label class="lbl-inline">Paard</label><input type="number" id="ds-horse-fs" value="20" min="10" max="50" oninput="applyDuoStyle()" /></div>
+          <div class="row"><label class="lbl-inline">Race</label><input type="number" id="ds-race-fs" value="11" min="8" max="24" oninput="applyDuoStyle()" /><label class="lbl-inline">Datum</label><input type="number" id="ds-date-fs" value="16" min="10" max="30" oninput="applyDuoStyle()" /></div>
+        </div>
+        <div id="style-master" style="display:none;">
+          <span class="lbl">ACHTERGROND</span>
+          <div class="row"><label class="lbl-inline">Start</label><input type="color" id="ms-bg1" value="#4a1030" oninput="applyMasterStyle()" /><label class="lbl-inline" style="margin-left:8px;">Eind</label><input type="color" id="ms-bg2" value="#0d0210" oninput="applyMasterStyle()" /></div>
+          <span class="lbl">BANNER</span>
+          <div class="row"><label class="lbl-inline">Achtergrond</label><input type="color" id="ms-banner-bg" value="#2a0a1a" oninput="applyMasterStyle()" /><label class="lbl-inline" style="margin-left:8px;">Tekst</label><input type="color" id="ms-banner-tc" value="#daa520" oninput="applyMasterStyle()" /></div>
+          <span class="lbl">CIRKEL</span>
+          <div class="row"><label class="lbl-inline">Achtergrond</label><input type="color" id="ms-circle-bg" value="#3a0820" oninput="applyMasterStyle()" /><label class="lbl-inline" style="margin-left:8px;">Kader</label><input type="color" id="ms-circle-border" value="#daa520" oninput="applyMasterStyle()" /></div>
+          <div class="row"><label class="lbl-inline">Cirkel grootte</label><input type="number" id="ms-circle-size" value="200" min="100" max="300" oninput="applyMasterStyle()" /></div>
+          <span class="lbl">TEKST</span>
+          <div class="row"><label class="lbl-inline">Tipper</label><input type="color" id="ms-tipper-c" value="#daa520" oninput="applyMasterStyle()" /><label class="lbl-inline" style="margin-left:8px;">Paard</label><input type="color" id="ms-horse-c" value="#f0f0e8" oninput="applyMasterStyle()" /></div>
+          <span class="lbl">FONT GROOTTES</span>
+          <div class="row"><label class="lbl-inline">Tipper</label><input type="number" id="ms-tipper-fs" value="22" min="10" max="50" oninput="applyMasterStyle()" /><label class="lbl-inline">Paard</label><input type="number" id="ms-horse-fs" value="28" min="10" max="60" oninput="applyMasterStyle()" /></div>
+          <div class="row"><label class="lbl-inline">Race</label><input type="number" id="ms-race-fs" value="12" min="8" max="24" oninput="applyMasterStyle()" /><label class="lbl-inline">Odds</label><input type="number" id="ms-odds-fs" value="36" min="16" max="72" oninput="applyMasterStyle()" /></div>
+        </div>
       </div>
     </div>
 
-    <!-- POSITIE & TEKST -->
+    <!-- LETTERTYPE -->
     <div class="acc">
       <div class="acc-header" onclick="toggleAcc(this)">
-        <span class="acc-title">POSITIE & TEKST</span>
-        <span class="acc-arrow open">▼</span>
+        <span class="acc-title">LETTERTYPE & EFFECTEN</span>
+        <span class="acc-arrow">▼</span>
       </div>
-      <div class="acc-body open">
-        <div class="field-tabs" id="field-tabs">
-          <div class="ftab active" data-field="naam" onclick="selectField('naam',this)">Naam</div>
-          <div class="ftab" data-field="bedrag" onclick="selectField('bedrag',this)">Bedrag</div>
-          <div class="ftab" data-field="winrate" onclick="selectField('winrate',this)">Winrate</div>
-          <div class="ftab" data-field="tips" onclick="selectField('tips',this)">Tips</div>
-          <div class="ftab" data-field="winners" onclick="selectField('winners',this)">Winnaars</div>
-          <div class="ftab" data-field="quote" onclick="selectField('quote',this)">Quote</div>
+      <div class="acc-body">
+        <span class="lbl">KIES LETTERTYPE (per template)</span>
+        <div class="font-grid">
+          <div class="fopt active" style="font-family:'Cinzel',serif" data-font="'Cinzel',serif" onclick="setTemplateFont(this)">Cinzel</div>
+          <div class="fopt" style="font-family:'Montserrat',sans-serif" data-font="'Montserrat',sans-serif" onclick="setTemplateFont(this)">Montserrat</div>
+          <div class="fopt" style="font-family:'Bebas Neue',cursive" data-font="'Bebas Neue',cursive" onclick="setTemplateFont(this)">Bebas</div>
+          <div class="fopt" style="font-family:'Oswald',sans-serif" data-font="'Oswald',sans-serif" onclick="setTemplateFont(this)">Oswald</div>
+          <div class="fopt" style="font-family:'Raleway',sans-serif" data-font="'Raleway',sans-serif" onclick="setTemplateFont(this)">Raleway</div>
+          <div class="fopt" style="font-family:'Anton',sans-serif" data-font="'Anton',sans-serif" onclick="setTemplateFont(this)">Anton</div>
+          <div class="fopt" style="font-family:'Poppins',sans-serif" data-font="'Poppins',sans-serif" onclick="setTemplateFont(this)">Poppins</div>
+          <div class="fopt" style="font-family:'Open Sans',sans-serif" data-font="'Open Sans',sans-serif" onclick="setTemplateFont(this)">Open Sans</div>
+          <div class="fopt" style="font-family:'Playfair Display',serif" data-font="'Playfair Display',serif" onclick="setTemplateFont(this)">Playfair</div>
         </div>
-
-        <div class="row">
-          <label>X</label><input type="number" id="pos-x" value="60" oninput="setPosX(this.value)" />
-          <label>Y</label><input type="number" id="pos-y" value="200" oninput="setPosY(this.value)" />
-          <label>Font</label><input type="number" id="pos-fs" value="24" min="6" max="120" oninput="setSize(this.value)" />
-        </div>
-        <div class="row" id="wh-row">
-          <label>B</label><input type="number" id="pos-w" value="200" oninput="setWidth(this.value)" />
-          <label>H</label><input type="number" id="pos-h" value="36" oninput="setHeight(this.value)" />
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="font-grid" id="font-grid">
-          <div class="fopt active" style="font-family:'Cinzel',serif" data-font="'Cinzel',serif" onclick="setFont(this)">Cinzel</div>
-          <div class="fopt" style="font-family:'Montserrat',sans-serif" data-font="'Montserrat',sans-serif" onclick="setFont(this)">Montserrat</div>
-          <div class="fopt" style="font-family:'Bebas Neue',cursive" data-font="'Bebas Neue',cursive" onclick="setFont(this)">Bebas</div>
-          <div class="fopt" style="font-family:'Oswald',sans-serif" data-font="'Oswald',sans-serif" onclick="setFont(this)">Oswald</div>
-          <div class="fopt" style="font-family:'Raleway',sans-serif" data-font="'Raleway',sans-serif" onclick="setFont(this)">Raleway</div>
-          <div class="fopt" style="font-family:'Playfair Display',serif" data-font="'Playfair Display',serif" onclick="setFont(this)">Playfair</div>
-          <div class="fopt" style="font-family:'Anton',sans-serif" data-font="'Anton',sans-serif" onclick="setFont(this)">Anton</div>
-          <div class="fopt" style="font-family:'Poppins',sans-serif" data-font="'Poppins',sans-serif" onclick="setFont(this)">Poppins</div>
-          <div class="fopt" style="font-family:'Open Sans',sans-serif" data-font="'Open Sans',sans-serif" onclick="setFont(this)">Open Sans</div>
-        </div>
-
         <div class="style-row">
-          <div class="sbtn active" id="s-bold" onclick="toggleBold()"><b>B</b></div>
-          <div class="sbtn" id="s-italic" onclick="toggleItalic()"><i>I</i></div>
-          <div class="sbtn" id="s-upper" onclick="toggleUpper()">AA</div>
-          <div class="sbtn" id="s-shadow" onclick="toggleEffect('shadow')">Schaduw</div>
-          <div class="sbtn" id="s-glow" onclick="toggleEffect('glow')">Glow</div>
-          <div class="sbtn" id="s-outline" onclick="toggleEffect('outline')">Outline</div>
-        </div>
-
-        <div class="row">
-          <label>Kleur</label>
-          <input type="color" id="txt-color" value="#daa520" oninput="setColor(this.value)" />
-          <span id="txt-hex" style="font-size:10px;color:#555;">#daa520</span>
-          <label style="margin-left:8px;">Schaduw</label>
-          <input type="color" id="shadow-color" value="#000000" oninput="updateEffect()" />
-        </div>
-      </div>
-    </div>
-
-    <!-- ACHTERGRONDVLAK -->
-    <div class="acc">
-      <div class="acc-header" onclick="toggleAcc(this)">
-        <span class="acc-title">ACHTERGRONDVLAK</span>
-        <span class="acc-arrow">▼</span>
-      </div>
-      <div class="acc-body">
-        <div class="row">
-          <label>Kleur</label><input type="color" id="bg-color" value="#000000" oninput="setBgBlock()" />
-          <label>Opacity</label><input type="number" id="bg-opacity" value="0" min="0" max="100" oninput="setBgBlock()" />
-          <span class="num-lbl">%</span>
-          <label>Radius</label><input type="number" id="bg-radius" value="0" min="0" max="50" oninput="setBgBlock()" />
-        </div>
-        <div class="row">
-          <label>Pad</label><input type="number" id="bg-pad" value="6" min="0" max="40" oninput="setBgBlock()" />
-        </div>
-      </div>
-    </div>
-
-    <!-- BANNER -->
-    <div class="acc">
-      <div class="acc-header" onclick="toggleAcc(this)">
-        <span class="acc-title">BANNER</span>
-        <span class="acc-arrow">▼</span>
-      </div>
-      <div class="acc-body">
-        <div class="row">
-          <label>Toon</label>
-          <input type="checkbox" id="banner-show" onchange="updateBanner()" />
-          <label>Kleur</label><input type="color" id="banner-color" value="#1a3a6a" oninput="updateBanner()" />
-        </div>
-        <div class="row">
-          <label>X</label><input type="number" id="banner-x" value="30" oninput="updateBanner()" />
-          <label>Y</label><input type="number" id="banner-y" value="160" oninput="updateBanner()" />
-          <label>B</label><input type="number" id="banner-w" value="300" oninput="updateBanner()" />
-          <label>H</label><input type="number" id="banner-h" value="36" oninput="updateBanner()" />
-        </div>
-        <div class="row">
-          <label>Radius</label><input type="number" id="banner-r" value="4" min="0" max="30" oninput="updateBanner()" />
-          <label>Tekst kleur</label><input type="color" id="banner-tc" value="#ffffff" oninput="updateBanner()" />
-        </div>
-        <span class="lbl">BANNER TEKST</span>
-        <input type="text" class="full-input" id="banner-text" value="PROFIT RECAP" oninput="updateBanner()" />
-      </div>
-    </div>
-
-    <!-- QUOTE STIJL -->
-    <div class="acc">
-      <div class="acc-header" onclick="toggleAcc(this)">
-        <span class="acc-title">QUOTE STIJL</span>
-        <span class="acc-arrow">▼</span>
-      </div>
-      <div class="acc-body">
-        <div class="row">
-          <label>Achtergrond</label><input type="color" id="q-bg" value="#000000" oninput="updateQuoteStyle()" />
-          <label>Opacity</label><input type="number" id="q-opacity" value="50" min="0" max="100" oninput="updateQuoteStyle()" />
-          <span class="num-lbl">%</span>
-        </div>
-        <div class="row">
-          <label>Tekstkleur</label><input type="color" id="q-tc" value="#f0e8c8" oninput="updateQuoteStyle()" />
-          <label>Accentkleur</label><input type="color" id="q-ac" value="#daa520" oninput="updateQuoteStyle()" />
-        </div>
-        <div class="row">
-          <label>Font</label><input type="number" id="q-fs" value="13" min="8" max="40" oninput="updateQuoteStyle()" />
-          <label>Radius</label><input type="number" id="q-r" value="6" min="0" max="20" oninput="updateQuoteStyle()" />
-          <label>Breedte</label><input type="number" id="q-w" value="220" min="80" max="600" oninput="updateQuoteStyle()" />
+          <div class="sbtn active" id="s-bold" onclick="toggleStyle('bold')"><b>B</b></div>
+          <div class="sbtn" id="s-italic" onclick="toggleStyle('italic')"><i>I</i></div>
+          <div class="sbtn" id="s-upper" onclick="toggleStyle('upper')">AA</div>
+          <div class="sbtn" id="s-shadow" onclick="toggleStyle('shadow')">Schaduw</div>
+          <div class="sbtn" id="s-glow" onclick="toggleStyle('glow')">Glow</div>
+          <div class="sbtn" id="s-outline" onclick="toggleStyle('outline')">Outline</div>
         </div>
       </div>
     </div>
@@ -337,433 +324,449 @@ Royal Flash - 17:45</textarea>
 
   <!-- CANVAS -->
   <div class="canvas-area">
-    <div class="canvas-label">PREVIEW — sleep velden · gebruik X/Y voor exacte positie</div>
-    <div class="canvas-wrap" id="canvas-wrap">
-      <div class="empty-canvas" id="empty-canvas">
-        <div>🖼</div>
-        <p>Upload een template<br>om te beginnen</p>
-      </div>
-      <div id="preview-container">
-        <img id="bg-image" src="" alt="template" crossorigin="anonymous" />
+    <div class="canvas-label">LIVE PREVIEW — schaalt automatisch mee</div>
+    <div class="card-preview" id="card-preview">
 
-        <!-- BANNER -->
-        <div class="ov" id="ov-banner" style="display:none;left:30px;top:160px;">
-          <div id="banner-block" style="background:#1a3a6a;border-radius:4px;padding:6px 14px;display:flex;align-items:center;">
-            <span id="banner-txt" style="color:#fff;font-family:'Cinzel',serif;font-size:14px;font-weight:700;letter-spacing:1px;">PROFIT RECAP</span>
+      <!-- PROFIT RECAP -->
+      <div class="tpl-recap" id="tpl-recap">
+        <div class="recap-inner">
+          <div class="recap-logo"><div class="recap-logo-circle">T</div></div>
+          <div class="recap-title-box">
+            <div class="recap-title" id="recap-title-txt" style="font-size:22px;">PROFIT RECAP</div>
           </div>
-          <div class="ov-border"></div>
+          <div class="recap-master-box">
+            <div class="recap-master-label" style="font-size:10px;">✦ TIP MASTER ✦</div>
+            <div class="recap-master-name" id="recap-name" style="font-size:20px;">Kees Nakoersen</div>
+            <div style="color:#daa520;font-size:9px;margin-top:3px;">✦</div>
+          </div>
+          <div class="recap-amount-box">
+            <div class="recap-amount" id="recap-amount" style="font-size:44px;">€293,00</div>
+            <div class="recap-amount-sub" style="font-size:8px;">TOTALE WINST ALS JE ALLE TIPS SPEELDE</div>
+          </div>
+          <div class="recap-stats">
+            <div class="recap-stat"><div style="font-size:20px;">🏆</div></div>
+            <div class="recap-stat"><div class="recap-stat-val" id="recap-tips" style="font-size:16px;">12</div><div class="recap-stat-label" style="font-size:8px;">TIPS</div></div>
+            <div class="recap-stat"><div class="recap-stat-val" id="recap-winrate" style="font-size:16px;">64%</div><div class="recap-stat-label" style="font-size:8px;">WINRATE</div></div>
+          </div>
+          <div class="recap-winners-box">
+            <div class="recap-winners-header" style="font-size:9px;">✦ WINNAARS ✦</div>
+            <div id="recap-winners-list"></div>
+          </div>
         </div>
-
-        <!-- NAAM -->
-        <div class="ov" id="ov-naam" style="left:60px;top:200px;" onclick="selectField('naam',null)">
-          <div class="ov-text" id="t-naam" style="color:#daa520;font-size:24px;font-family:'Cinzel',serif;font-weight:700;width:220px;height:34px;text-shadow:2px 2px 4px #000;">Kees Nakoersen</div>
-          <div class="ov-border"></div><div class="resize-dot" onmousedown="startResize(event,'naam')"></div>
-        </div>
-
-        <!-- BEDRAG -->
-        <div class="ov" id="ov-bedrag" style="left:60px;top:250px;" onclick="selectField('bedrag',null)">
-          <div class="ov-text" id="t-bedrag" style="color:#c8e832;font-size:48px;font-family:'Cinzel',serif;font-weight:700;width:280px;height:60px;text-shadow:0 0 20px #7ab00066;">€293,00</div>
-          <div class="ov-border"></div><div class="resize-dot" onmousedown="startResize(event,'bedrag')"></div>
-        </div>
-
-        <!-- WINRATE -->
-        <div class="ov" id="ov-winrate" style="left:200px;top:320px;" onclick="selectField('winrate',null)">
-          <div class="ov-text" id="t-winrate" style="color:#c8e832;font-size:20px;font-family:'Cinzel',serif;font-weight:700;width:90px;height:28px;">64%</div>
-          <div class="ov-border"></div><div class="resize-dot" onmousedown="startResize(event,'winrate')"></div>
-        </div>
-
-        <!-- TIPS -->
-        <div class="ov" id="ov-tips" style="left:120px;top:320px;" onclick="selectField('tips',null)">
-          <div class="ov-text" id="t-tips" style="color:#c8e832;font-size:20px;font-family:'Cinzel',serif;font-weight:700;width:70px;height:28px;">12</div>
-          <div class="ov-border"></div><div class="resize-dot" onmousedown="startResize(event,'tips')"></div>
-        </div>
-
-        <!-- WINNERS -->
-        <div class="ov ov-winners" id="ov-winners" style="left:60px;top:360px;" onclick="selectField('winners',null)">
-          <div id="t-winners"></div>
-          <div class="ov-border"></div>
-        </div>
-
-        <!-- QUOTE -->
-        <div class="ov ov-quote" id="ov-quote" style="left:60px;top:440px;width:220px;background:rgba(0,0,0,0.5);border-radius:6px;padding:10px 14px;" onclick="selectField('quote',null)">
-          <div class="q-mark" id="q-mark" style="color:#daa520;">"</div>
-          <div class="q-text" id="t-quote" style="font-size:13px;color:#f0e8c8;font-family:'Playfair Display',serif;">"Consistent winnen begint met de juiste keuzes."</div>
-          <div class="q-author" id="t-author" style="color:#daa520;font-size:10px;">— Tip Masters</div>
-          <div class="ov-border"></div>
-        </div>
-
       </div>
+
+      <!-- MASTER DUO -->
+      <div class="tpl-duo" id="tpl-duo" style="display:none;">
+        <div class="duo-bg" id="duo-bg-el"></div>
+        <div class="duo-inner">
+          <div class="duo-logo"><div class="duo-logo-circle">T</div></div>
+          <div class="duo-main-title" id="duo-title" style="font-size:20px;">MASTER TIPS</div>
+          <div class="duo-tips-container" id="duo-tips-container"></div>
+          <div class="duo-date" id="duo-date" style="font-size:16px;">maandag 20 april</div>
+          <div class="duo-footer" style="font-size:10px;">Wat kost gokken jou? Stop op tijd. 18+</div>
+        </div>
+      </div>
+
+      <!-- MASTER TIP -->
+      <div class="tpl-master" id="tpl-master" style="display:none;">
+        <div class="master-bg" id="master-bg-el"></div>
+        <div class="master-inner">
+          <div class="master-logo"><div class="master-logo-circle">T</div></div>
+          <div class="master-banner">
+            <div class="master-banner-inner" id="master-banner-inner" style="background:#2a0a1a;color:#daa520;font-size:16px;">MASTER TIP</div>
+          </div>
+          <div class="master-circle-area">
+            <div class="master-circle" id="master-circle" style="width:200px;height:200px;">
+              <div class="master-tipper" id="master-tipper" style="font-size:22px;">Bjorn<br>Better</div>
+            </div>
+          </div>
+          <div class="master-horse" id="master-horse" style="font-size:28px;margin-bottom:4px;">J.KAGAN BRICK (10)</div>
+          <div class="master-race" id="master-race" style="font-size:12px;margin-bottom:16px;">BOLLNAS · RACE 6 - 18 APRIL</div>
+          <div class="master-odds-area">
+            <div class="master-odds-box">
+              <div class="master-odds" id="master-odds" style="font-size:36px;">13.57</div>
+            </div>
+          </div>
+          <div class="master-footer-txt" style="font-size:10px;margin-top:14px;">Wat kost gokken jou? Stop op tijd. 18+</div>
+        </div>
+      </div>
+
     </div>
   </div>
-
 </div>
 
 <script>
 // ---- STATE ----
-let selectedField = 'naam';
-let isBold=true, isItalic=false, isUpper=false;
-let effects={shadow:false,glow:false,outline:false};
-let templates=[], presets=[];
-let currentImageData=null;
-try { templates=JSON.parse(localStorage.getItem('tm_tpls')||'[]'); } catch(e){}
-try { presets=JSON.parse(localStorage.getItem('tm_presets')||'[]'); } catch(e){}
+let currentTpl = 'recap';
+let styles = { bold:true, italic:false, upper:false, shadow:false, glow:false, outline:false };
+let presets = [];
+try { presets = JSON.parse(localStorage.getItem('tm_ultimate_presets')||'[]'); } catch(e){}
 
 // ---- ACCORDION ----
-function toggleAcc(header) {
-  const body = header.nextElementSibling;
-  const arrow = header.querySelector('.acc-arrow');
-  body.classList.toggle('open');
-  arrow.classList.toggle('open');
+function toggleAcc(h) {
+  const b=h.nextElementSibling, a=h.querySelector('.acc-arrow');
+  b.classList.toggle('open'); a.classList.toggle('open');
 }
 
-// ---- IMAGE ----
-function loadImage(e) {
-  const file = e.target.files[0]; if(!file) return;
-  const reader = new FileReader();
-  reader.onload = ev => { currentImageData = ev.target.result; showImage(currentImageData); };
-  reader.readAsDataURL(file);
-}
-function showImage(src) {
-  const img = document.getElementById('bg-image');
-  img.src = src;
-  img.onload = () => {
-    document.getElementById('empty-canvas').style.display='none';
-    document.getElementById('preview-container').style.display='block';
-    document.getElementById('dl-btn').disabled=false;
-    document.getElementById('tpl-status').className='status ok';
-    document.getElementById('tpl-status').textContent='Template geladen';
-    updateWinners(); updateBanner();
-  };
+// ---- TEMPLATE SWITCH ----
+function switchTemplate(tpl, el) {
+  currentTpl = tpl;
+  document.querySelectorAll('.tpl-tab').forEach(t=>t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  ['recap','duo','master'].forEach(t => {
+    document.getElementById('tpl-'+t).style.display = t===tpl?'block':'none';
+    document.getElementById('tpl-'+t+'-opts').style.display = t===tpl?'block':'none';
+    document.getElementById('style-'+t).style.display = t===tpl?'block':'none';
+  });
+  if(tpl==='duo') updateDuo();
+  if(tpl==='recap') updateRecap();
+  if(tpl==='master') updateMaster();
 }
 
-// ---- TEMPLATES ----
-function saveTpl() {
-  if(!currentImageData) return alert('Upload eerst een afbeelding.');
-  const name = document.getElementById('tpl-name').value || 'Template '+(templates.length+1);
-  templates.push({id:Date.now(),name,src:currentImageData});
-  try{localStorage.setItem('tm_tpls',JSON.stringify(templates));}catch(e){}
-  renderThumbs(); document.getElementById('tpl-name').value='';
+// ===================== PROFIT RECAP =====================
+function buildWinnerInputs() {
+  const count = parseInt(document.getElementById('r-winner-count').value)||3;
+  const container = document.getElementById('r-winner-inputs');
+  const existing = container.querySelectorAll('input[data-winner]');
+  const vals = Array.from(existing).map(i=>i.value);
+  container.innerHTML = '';
+  for(let i=0;i<count;i++) {
+    const defaults = ['Black Thunder - 14:30','Golden Storm - 16:00','Royal Flash - 17:45','Silver Moon - 15:45','Iron Duke - 17:00'];
+    const wrapper = document.createElement('div');
+    wrapper.style.marginBottom='5px';
+    const lbl = document.createElement('span');
+    lbl.className='lbl'; lbl.textContent='WINNAAR '+(i+1);
+    const inp = document.createElement('input');
+    inp.type='text'; inp.className='full-input';
+    inp.setAttribute('data-winner', i);
+    inp.value = vals[i] || defaults[i] || '';
+    inp.oninput = () => updateRecap();
+    wrapper.appendChild(lbl); wrapper.appendChild(inp);
+    container.appendChild(wrapper);
+  }
+  updateRecap();
 }
-function deleteTpl(id) {
-  templates=templates.filter(t=>t.id!==id);
-  try{localStorage.setItem('tm_tpls',JSON.stringify(templates));}catch(e){}
-  renderThumbs();
-}
-function renderThumbs() {
-  const g=document.getElementById('thumb-grid');
-  if(!templates.length){g.innerHTML='<div style="color:#333;font-size:10px;grid-column:span 3;text-align:center;padding:8px;">Nog geen templates</div>';return;}
-  g.innerHTML=templates.map(t=>`
-    <div class="thumb" id="th-${t.id}" onclick="loadTpl(${t.id})">
-      <img src="${t.src}" /><div class="tlbl">${t.name}</div>
-      <button class="tdel" onclick="event.stopPropagation();deleteTpl(${t.id})">✕</button>
+
+function updateRecap() {
+  buildWinnerInputsIfNeeded();
+  document.getElementById('recap-name').textContent = document.getElementById('r-naam').value;
+  document.getElementById('recap-amount').textContent = document.getElementById('r-bedrag').value;
+  document.getElementById('recap-winrate').textContent = document.getElementById('r-winrate').value;
+  document.getElementById('recap-tips').textContent = document.getElementById('r-tips').value;
+  const winners = Array.from(document.querySelectorAll('[data-winner]')).map(i=>i.value).filter(Boolean);
+  const list = document.getElementById('recap-winners-list');
+  const accentCol = document.getElementById('rs-accent')?.value||'#daa520';
+  const amountCol = document.getElementById('rs-amount')?.value||'#c8e832';
+  const nameCol = document.getElementById('rs-name')?.value||'#daa520';
+  const fs = document.getElementById('rs-winner-fs')?.value||13;
+  list.innerHTML = winners.map((w,i)=>`
+    <div class="recap-winner-row" style="${i<winners.length-1?'':'border-bottom:none'}">
+      <div class="recap-winner-left">
+        <span class="recap-winner-check" style="color:#4aaa4a;font-size:${fs}px;">✔</span>
+        <span style="color:${nameCol};font-size:${fs}px;">${w}</span>
+      </div>
+      <span class="recap-win-badge" style="color:${amountCol};font-size:${fs}px;">WIN</span>
     </div>`).join('');
 }
-function loadTpl(id) {
-  const t=templates.find(t=>t.id===id); if(!t)return;
-  currentImageData=t.src; showImage(t.src);
-  document.querySelectorAll('.thumb').forEach(el=>el.classList.remove('active'));
-  const el=document.getElementById('th-'+id); if(el)el.classList.add('active');
+
+let winnerInputsBuilt = false;
+function buildWinnerInputsIfNeeded() {
+  if(!winnerInputsBuilt) { buildWinnerInputs(); winnerInputsBuilt=true; }
 }
-renderThumbs();
+document.getElementById('r-winner-count').addEventListener('change', ()=>{winnerInputsBuilt=false; buildWinnerInputs();});
+
+function applyRecapStyle() {
+  const bg = document.getElementById('rs-bg').value;
+  const border = document.getElementById('rs-border').value;
+  const accent = document.getElementById('rs-accent').value;
+  const amount = document.getElementById('rs-amount').value;
+  const nameC = document.getElementById('rs-name').value;
+  const sub = document.getElementById('rs-sub').value;
+  const titleFs = document.getElementById('rs-title-fs').value;
+  const nameFs = document.getElementById('rs-name-fs').value;
+  const amountFs = document.getElementById('rs-amount-fs').value;
+
+  const recap = document.getElementById('tpl-recap');
+  recap.style.background = bg;
+  recap.style.borderColor = border;
+
+  const titleEl = document.getElementById('recap-title-txt');
+  if(titleEl) { titleEl.style.fontSize=titleFs+'px'; titleEl.style.color='#f0f0e8'; }
+
+  const nameEl = document.getElementById('recap-name');
+  if(nameEl) { nameEl.style.fontSize=nameFs+'px'; nameEl.style.color=nameC; }
+
+  const amountEl = document.getElementById('recap-amount');
+  if(amountEl) { amountEl.style.fontSize=amountFs+'px'; amountEl.style.color=amount; }
+
+  document.querySelectorAll('.recap-master-label').forEach(el=>el.style.color=accent);
+  document.querySelectorAll('.recap-winners-header').forEach(el=>el.style.color=accent);
+  document.querySelectorAll('.recap-amount-sub, .recap-stat-label').forEach(el=>el.style.color=sub);
+
+  updateRecap();
+}
+
+// ===================== MASTER DUO =====================
+function buildDuoTips() {
+  const count = parseInt(document.getElementById('d-tip-count').value)||2;
+  const container = document.getElementById('d-tip-inputs');
+  const existing = [];
+  container.querySelectorAll('.tip-block-ctrl').forEach(b=>{
+    existing.push({
+      tipper: b.querySelector('[data-duotipper]')?.value||'',
+      horse: b.querySelector('[data-duohorse]')?.value||'',
+      race: b.querySelector('[data-duorace]')?.value||''
+    });
+  });
+  container.innerHTML='';
+  const defaults=[
+    {tipper:'Fast Ferry',horse:'ROY SCHERMER(3)',race:'ROMME · RACE 1 - 18.20 uur'},
+    {tipper:'Peter van \'t Hof',horse:'ROY SCHERMER(3)',race:'ROMME · RACE 1 - 18.20 uur'},
+    {tipper:'Jan de Vries',horse:'GOLDEN STAR(5)',race:'VINCENNES · RACE 3 - 20.00 uur'}
+  ];
+  for(let i=0;i<count;i++){
+    const d=existing[i]||defaults[i]||{tipper:'Tipper '+(i+1),horse:'Paard naam',race:'Race info'};
+    const div=document.createElement('div'); div.className='tip-block-ctrl';
+    div.innerHTML=`<div class="tip-hdr">TIP ${i+1}</div>
+      <span class="lbl">TIPPER</span><input type="text" class="full-input" data-duotipper="${i}" value="${d.tipper}" oninput="updateDuo()" />
+      <span class="lbl">PAARD</span><input type="text" class="full-input" data-duohorse="${i}" value="${d.horse}" oninput="updateDuo()" />
+      <span class="lbl">RACE INFO</span><input type="text" class="full-input" data-duorace="${i}" value="${d.race}" oninput="updateDuo()" />`;
+    container.appendChild(div);
+  }
+  updateDuo();
+}
+
+function updateDuo() {
+  buildDuoTipsIfNeeded();
+  const title = document.getElementById('d-title').value;
+  const date = document.getElementById('d-date').value;
+  document.getElementById('duo-title').textContent = title;
+  document.getElementById('duo-date').textContent = date;
+
+  const accentCol = document.getElementById('ds-accent')?.value||'#daa520';
+  const horseCol = document.getElementById('ds-horse')?.value||'#f0f0e8';
+  const blockBg = document.getElementById('ds-block-bg')?.value||'#1a0805';
+  const neon1 = document.getElementById('ds-neon1')?.value||'#ff8c00';
+  const neon2 = document.getElementById('ds-neon2')?.value||'#0066ff';
+  const tipperFs = document.getElementById('ds-tipper-fs')?.value||16;
+  const horseFs = document.getElementById('ds-horse-fs')?.value||20;
+  const raceFs = document.getElementById('ds-race-fs')?.value||11;
+
+  const tips = [];
+  document.querySelectorAll('[data-duotipper]').forEach((el,i)=>{
+    tips[parseInt(el.dataset.duotipper)]={tipper:el.value};
+  });
+  document.querySelectorAll('[data-duohorse]').forEach(el=>{
+    if(tips[parseInt(el.dataset.duohorse)]) tips[parseInt(el.dataset.duohorse)].horse=el.value;
+  });
+  document.querySelectorAll('[data-duorace]').forEach(el=>{
+    if(tips[parseInt(el.dataset.duorace)]) tips[parseInt(el.dataset.duorace)].race=el.value;
+  });
+
+  const container = document.getElementById('duo-tips-container');
+  container.innerHTML = tips.filter(Boolean).map((t,i)=>`
+    <div class="duo-tip-block" style="background:${blockBg};">
+      <style>.duo-tip-block-${i}::before{background:linear-gradient(135deg,${neon1},${neon2},${neon1}) border-box!important;}</style>
+      <div class="duo-avatar" style="border-color:${accentCol};background:linear-gradient(145deg,#b8860b,${accentCol});">
+        <span style="font-size:${Math.max(14,Math.round(parseInt(tipperFs)*0.7))}px;font-family:'Cinzel',serif;font-weight:900;color:#1a0a05;">${t.tipper.charAt(0)}</span>
+      </div>
+      <div class="duo-tip-info">
+        <div class="duo-tipper-name" style="color:${accentCol};font-size:${tipperFs}px;">${t.tipper}</div>
+        <div class="duo-horse-name" style="color:${horseCol};font-size:${horseFs}px;">${t.horse}</div>
+        <div class="duo-race-info" style="font-size:${raceFs}px;">${t.race}</div>
+      </div>
+    </div>`).join('');
+}
+
+let duoTipsBuilt=false;
+function buildDuoTipsIfNeeded(){if(!duoTipsBuilt){buildDuoTips();duoTipsBuilt=true;}}
+document.getElementById('d-tip-count').addEventListener('change',()=>{duoTipsBuilt=false;buildDuoTips();});
+
+function applyDuoStyle(){
+  const bg1=document.getElementById('ds-bg1').value, bg2=document.getElementById('ds-bg2').value;
+  document.getElementById('duo-bg-el').style.background=`radial-gradient(ellipse 100% 100% at 50% 50%,${bg1} 0%,${bg2} 100%)`;
+  const accentCol=document.getElementById('ds-accent').value;
+  const dateEl=document.getElementById('duo-date');
+  if(dateEl) { dateEl.style.color='#f0e8d8'; dateEl.style.fontSize=document.getElementById('ds-date-fs').value+'px'; }
+  updateDuo();
+}
+
+// ===================== MASTER TIP =====================
+function updateMaster(){
+  const tipper=document.getElementById('m-tipper').value;
+  const horse=document.getElementById('m-horse').value;
+  const race=document.getElementById('m-race').value;
+  const odds=document.getElementById('m-odds').value;
+  const banner=document.getElementById('m-banner').value;
+
+  const tipperEl=document.getElementById('master-tipper');
+  if(tipperEl) tipperEl.innerHTML=tipper.replace(' ','<br>');
+  const horseEl=document.getElementById('master-horse');
+  if(horseEl) horseEl.textContent=horse;
+  const raceEl=document.getElementById('master-race');
+  if(raceEl) raceEl.textContent=race;
+  const oddsEl=document.getElementById('master-odds');
+  if(oddsEl) oddsEl.textContent=odds;
+  const bannerEl=document.getElementById('master-banner-inner');
+  if(bannerEl) bannerEl.textContent=banner;
+}
+
+function applyMasterStyle(){
+  const bg1=document.getElementById('ms-bg1').value, bg2=document.getElementById('ms-bg2').value;
+  document.getElementById('master-bg-el').style.background=`radial-gradient(ellipse 120% 120% at 50% 30%,${bg1} 0%,${bg2} 100%)`;
+
+  const bannerBg=document.getElementById('ms-banner-bg').value, bannerTc=document.getElementById('ms-banner-tc').value;
+  const bannerEl=document.getElementById('master-banner-inner');
+  if(bannerEl){bannerEl.style.background=bannerBg;bannerEl.style.color=bannerTc;bannerEl.style.fontSize=document.getElementById('ms-tipper-fs').value+'px';}
+
+  const circleBg=document.getElementById('ms-circle-bg').value, circleBorder=document.getElementById('ms-circle-border').value;
+  const circleSize=document.getElementById('ms-circle-size').value;
+  const circleEl=document.getElementById('master-circle');
+  if(circleEl){circleEl.style.background=`linear-gradient(145deg,${circleBg},${circleBg}dd)`;circleEl.style.borderColor=circleBorder;circleEl.style.width=circleSize+'px';circleEl.style.height=circleSize+'px';}
+
+  const tipperC=document.getElementById('ms-tipper-c').value, horseC=document.getElementById('ms-horse-c').value;
+  const tipperFs=document.getElementById('ms-tipper-fs').value, horseFs=document.getElementById('ms-horse-fs').value;
+  const raceFs=document.getElementById('ms-race-fs').value, oddsFs=document.getElementById('ms-odds-fs').value;
+
+  const tipperEl=document.getElementById('master-tipper');
+  if(tipperEl){tipperEl.style.color=tipperC;tipperEl.style.fontSize=tipperFs+'px';}
+  const horseEl=document.getElementById('master-horse');
+  if(horseEl){horseEl.style.color=horseC;horseEl.style.fontSize=horseFs+'px';}
+  const raceEl=document.getElementById('master-race');
+  if(raceEl) raceEl.style.fontSize=raceFs+'px';
+  const oddsEl=document.getElementById('master-odds');
+  if(oddsEl){oddsEl.style.color=circleBorder;oddsEl.style.fontSize=oddsFs+'px';}
+}
+
+// ---- FONT / STYLE ----
+function setTemplateFont(el){
+  document.querySelectorAll('.fopt').forEach(f=>f.classList.remove('active')); el.classList.add('active');
+  const font=el.dataset.font;
+  const tpl=document.getElementById('tpl-'+currentTpl);
+  if(tpl) tpl.style.fontFamily=font;
+}
+
+function toggleStyle(type){
+  styles[type]=!styles[type];
+  document.getElementById('s-'+type).classList.toggle('active',styles[type]);
+  const tpl=document.getElementById('tpl-'+currentTpl);
+  if(!tpl)return;
+  tpl.style.fontWeight=styles.bold?'700':'400';
+  tpl.style.fontStyle=styles.italic?'italic':'normal';
+  tpl.style.textTransform=styles.upper?'uppercase':'none';
+  const col=currentTpl==='recap'?(document.getElementById('rs-amount')?.value||'#c8e832'):
+            currentTpl==='duo'?(document.getElementById('ds-horse')?.value||'#f0f0e8'):
+            (document.getElementById('ms-horse-c')?.value||'#f0f0e8');
+  let shadows=[];
+  if(styles.shadow) shadows.push('2px 2px 5px #000');
+  if(styles.glow) shadows.push(`0 0 12px ${col},0 0 24px ${col}88`);
+  if(styles.outline) shadows.push('-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000');
+  tpl.style.textShadow=shadows.join(',')||'none';
+}
 
 // ---- PRESETS ----
-function savePreset() {
-  const name = prompt('Naam voor deze preset:'); if(!name)return;
-  const state = captureState();
-  const existing = presets.findIndex(p=>p.name===name);
-  if(existing>=0) presets[existing]=({name,...state}); else presets.push({name,...state});
-  try{localStorage.setItem('tm_presets',JSON.stringify(presets));}catch(e){}
+function savePreset(){
+  const name=prompt('Preset naam:'); if(!name)return;
+  const state=captureState();
+  const idx=presets.findIndex(p=>p.name===name&&p.tpl===currentTpl);
+  if(idx>=0) presets[idx]=state; else presets.push(state);
+  try{localStorage.setItem('tm_ultimate_presets',JSON.stringify(presets));}catch(e){}
   renderPresets();
 }
-function loadPreset(name) {
+function loadPreset(name){
   const p=presets.find(p=>p.name===name); if(!p)return;
   applyState(p);
 }
-function deletePreset() {
+function deletePreset(){
   const name=document.getElementById('preset-select').value; if(!name)return;
   presets=presets.filter(p=>p.name!==name);
-  try{localStorage.setItem('tm_presets',JSON.stringify(presets));}catch(e){}
+  try{localStorage.setItem('tm_ultimate_presets',JSON.stringify(presets));}catch(e){}
   renderPresets();
 }
-function renderPresets() {
+function renderPresets(){
   const sel=document.getElementById('preset-select');
   const cur=sel.value;
-  sel.innerHTML='<option value="">— Kies preset —</option>'+presets.map(p=>`<option value="${p.name}">${p.name}</option>`).join('');
+  sel.innerHTML='<option value="">— Preset —</option>'+presets.map(p=>`<option value="${p.name}">[${p.tpl}] ${p.name}</option>`).join('');
   if(cur) sel.value=cur;
 }
-function captureState() {
-  return {
-    naam: document.getElementById('i-naam').value,
-    bedrag: document.getElementById('i-bedrag').value,
-    winrate: document.getElementById('i-winrate').value,
-    tips: document.getElementById('i-tips').value,
-    winners: document.getElementById('i-winners').value,
-    quote: document.getElementById('i-quote').value,
-    author: document.getElementById('i-author').value,
-    positions: ['naam','bedrag','winrate','tips','winners','quote','banner'].reduce((acc,id)=>{
-      const el=document.getElementById('ov-'+id);
-      if(el) acc[id]={left:el.style.left,top:el.style.top};
-      return acc;
-    },{}),
-    bannerShow: document.getElementById('banner-show').checked,
-    bannerText: document.getElementById('banner-text').value,
-  };
-}
-function applyState(p) {
-  if(p.naam){document.getElementById('i-naam').value=p.naam;updateText('naam',p.naam);}
-  if(p.bedrag){document.getElementById('i-bedrag').value=p.bedrag;updateText('bedrag',p.bedrag);}
-  if(p.winrate){document.getElementById('i-winrate').value=p.winrate;updateText('winrate',p.winrate);}
-  if(p.tips){document.getElementById('i-tips').value=p.tips;updateText('tips',p.tips);}
-  if(p.winners){document.getElementById('i-winners').value=p.winners;updateWinners();}
-  if(p.quote){document.getElementById('i-quote').value=p.quote;}
-  if(p.author){document.getElementById('i-author').value=p.author;}
-  updateQuote();
-  if(p.positions){
-    Object.entries(p.positions).forEach(([id,pos])=>{
-      const el=document.getElementById('ov-'+id);
-      if(el){el.style.left=pos.left;el.style.top=pos.top;}
-    });
+function captureState(){
+  const state={name:'',tpl:currentTpl};
+  if(currentTpl==='recap'){
+    state.naam=document.getElementById('r-naam').value;
+    state.bedrag=document.getElementById('r-bedrag').value;
+    state.winrate=document.getElementById('r-winrate').value;
+    state.tips=document.getElementById('r-tips').value;
+    state.winnerCount=document.getElementById('r-winner-count').value;
+    state.winners=Array.from(document.querySelectorAll('[data-winner]')).map(i=>i.value);
+    state.rsBg=document.getElementById('rs-bg').value;
+    state.rsBorder=document.getElementById('rs-border').value;
+    state.rsAccent=document.getElementById('rs-accent').value;
+    state.rsAmount=document.getElementById('rs-amount').value;
+    state.rsName=document.getElementById('rs-name').value;
+  } else if(currentTpl==='duo'){
+    state.dTitle=document.getElementById('d-title').value;
+    state.dDate=document.getElementById('d-date').value;
+    state.dCount=document.getElementById('d-tip-count').value;
+    state.dTips=[];
+    document.querySelectorAll('[data-duotipper]').forEach(el=>{ state.dTips[parseInt(el.dataset.duotipper)]={tipper:el.value}; });
+    document.querySelectorAll('[data-duohorse]').forEach(el=>{ if(state.dTips[parseInt(el.dataset.duohorse)]) state.dTips[parseInt(el.dataset.duohorse)].horse=el.value; });
+    document.querySelectorAll('[data-duorace]').forEach(el=>{ if(state.dTips[parseInt(el.dataset.duorace)]) state.dTips[parseInt(el.dataset.duorace)].race=el.value; });
+  } else if(currentTpl==='master'){
+    state.mBanner=document.getElementById('m-banner').value;
+    state.mTipper=document.getElementById('m-tipper').value;
+    state.mHorse=document.getElementById('m-horse').value;
+    state.mRace=document.getElementById('m-race').value;
+    state.mOdds=document.getElementById('m-odds').value;
   }
-  if(p.bannerText){document.getElementById('banner-text').value=p.bannerText;}
-  if(p.bannerShow!==undefined){document.getElementById('banner-show').checked=p.bannerShow;}
-  updateBanner();
+  return state;
+}
+function applyState(p){
+  if(p.tpl) switchTemplate(p.tpl, document.querySelector(`.tpl-tab:nth-child(${p.tpl==='recap'?1:p.tpl==='duo'?2:3})`));
+  setTimeout(()=>{
+    if(p.tpl==='recap'){
+      if(p.naam){document.getElementById('r-naam').value=p.naam;}
+      if(p.bedrag){document.getElementById('r-bedrag').value=p.bedrag;}
+      if(p.winrate){document.getElementById('r-winrate').value=p.winrate;}
+      if(p.tips){document.getElementById('r-tips').value=p.tips;}
+      if(p.winnerCount){document.getElementById('r-winner-count').value=p.winnerCount;winnerInputsBuilt=false;buildWinnerInputs();}
+      if(p.rsBg){document.getElementById('rs-bg').value=p.rsBg;}
+      if(p.rsBorder){document.getElementById('rs-border').value=p.rsBorder;}
+      if(p.rsAccent){document.getElementById('rs-accent').value=p.rsAccent;}
+      if(p.rsAmount){document.getElementById('rs-amount').value=p.rsAmount;}
+      applyRecapStyle(); updateRecap();
+    } else if(p.tpl==='duo'){
+      if(p.dTitle){document.getElementById('d-title').value=p.dTitle;}
+      if(p.dDate){document.getElementById('d-date').value=p.dDate;}
+      if(p.dCount){document.getElementById('d-tip-count').value=p.dCount;duoTipsBuilt=false;buildDuoTips();}
+      updateDuo();
+    } else if(p.tpl==='master'){
+      if(p.mBanner){document.getElementById('m-banner').value=p.mBanner;}
+      if(p.mTipper){document.getElementById('m-tipper').value=p.mTipper;}
+      if(p.mHorse){document.getElementById('m-horse').value=p.mHorse;}
+      if(p.mRace){document.getElementById('m-race').value=p.mRace;}
+      if(p.mOdds){document.getElementById('m-odds').value=p.mOdds;}
+      updateMaster();
+    }
+  },50);
 }
 renderPresets();
-
-// ---- FIELD SELECTION ----
-function selectField(id, tabEl) {
-  selectedField=id;
-  document.querySelectorAll('.ov').forEach(el=>el.classList.remove('selected'));
-  const ov=document.getElementById('ov-'+id); if(ov) ov.classList.add('selected');
-  if(tabEl){document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));tabEl.classList.add('active');}
-  else{document.querySelectorAll('.ftab').forEach(t=>t.classList.toggle('active',t.dataset.field===id));}
-
-  // Sync position inputs
-  if(ov){
-    document.getElementById('pos-x').value=parseInt(ov.style.left)||0;
-    document.getElementById('pos-y').value=parseInt(ov.style.top)||0;
-  }
-  const txt=document.getElementById('t-'+id);
-  if(txt){
-    document.getElementById('pos-fs').value=parseInt(txt.style.fontSize)||24;
-    document.getElementById('pos-w').value=parseInt(txt.style.width)||200;
-    document.getElementById('pos-h').value=parseInt(txt.style.height)||34;
-  }
-  const whr=document.getElementById('wh-row');
-  whr.style.display=(id==='winners'||id==='quote')?'none':'flex';
-
-  // Sync color
-  const col=(txt&&txt.style.color)||'#daa520';
-  document.getElementById('txt-color').value=rgbToHex(col);
-  document.getElementById('txt-hex').textContent=rgbToHex(col);
-
-  // Sync font
-  if(txt){
-    document.querySelectorAll('.fopt').forEach(f=>f.classList.toggle('active',txt.style.fontFamily===f.dataset.font));
-    isBold=txt.style.fontWeight==='700'||txt.style.fontWeight==='bold';
-    isItalic=txt.style.fontStyle==='italic';
-    document.getElementById('s-bold').classList.toggle('active',isBold);
-    document.getElementById('s-italic').classList.toggle('active',isItalic);
-  }
-}
-selectField('naam',null);
-
-// ---- POSITION FROM INPUTS ----
-function setPosX(v){const el=document.getElementById('ov-'+selectedField);if(el)el.style.left=v+'px';}
-function setPosY(v){const el=document.getElementById('ov-'+selectedField);if(el)el.style.top=v+'px';}
-function setWidth(v){const el=document.getElementById('t-'+selectedField);if(el)el.style.width=v+'px';}
-function setHeight(v){const el=document.getElementById('t-'+selectedField);if(el)el.style.height=v+'px';}
-function setSize(v){
-  const el=document.getElementById('t-'+selectedField);
-  if(el)el.style.fontSize=v+'px';
-  if(selectedField==='winners')updateWinners();
-}
-
-// ---- TEXT ----
-function updateText(id,val){
-  const el=document.getElementById('t-'+id);
-  if(el)el.textContent=isUpper&&selectedField===id?val.toUpperCase():val;
-}
-function updateWinners(){
-  const ov=document.getElementById('ov-winners');
-  const t=document.getElementById('t-winners-ref')||ov;
-  const color=ov.style.color||'#a0c8a0', size=ov.style.fontSize||'14px', font=ov.style.fontFamily||"'Open Sans',sans-serif", weight=ov.style.fontWeight||'400', shadow=ov.style.textShadow||'none';
-  const lines=document.getElementById('i-winners').value.split('\n').map(w=>w.trim()).filter(Boolean);
-  document.getElementById('t-winners').innerHTML=lines.map(w=>`
-    <div class="winner-row" style="color:${color};font-size:${size};font-family:${font};font-weight:${weight};text-shadow:${shadow};line-height:1.8;">
-      <span style="color:#4aaa4a;">✔</span><span>${w}</span><span style="margin-left:10px;color:#c8e832;font-weight:700;">WIN</span>
-    </div>`).join('');
-}
-function updateQuote(){
-  document.getElementById('t-quote').textContent=document.getElementById('i-quote').value;
-  document.getElementById('t-author').textContent=document.getElementById('i-author').value;
-}
-
-// ---- FONT ----
-function setFont(el){
-  if(!selectedField)return;
-  document.querySelectorAll('.fopt').forEach(f=>f.classList.remove('active')); el.classList.add('active');
-  const t=document.getElementById('t-'+selectedField);
-  if(t)t.style.fontFamily=el.dataset.font;
-  if(selectedField==='winners')updateWinners();
-  if(selectedField==='quote')document.getElementById('t-quote').style.fontFamily=el.dataset.font;
-}
-
-// ---- BOLD/ITALIC/UPPER ----
-function toggleBold(){
-  isBold=!isBold; document.getElementById('s-bold').classList.toggle('active',isBold);
-  const t=document.getElementById('t-'+selectedField); if(t)t.style.fontWeight=isBold?'700':'400';
-  if(selectedField==='winners')updateWinners();
-}
-function toggleItalic(){
-  isItalic=!isItalic; document.getElementById('s-italic').classList.toggle('active',isItalic);
-  const t=document.getElementById('t-'+selectedField); if(t)t.style.fontStyle=isItalic?'italic':'normal';
-  if(selectedField==='winners')updateWinners();
-}
-function toggleUpper(){
-  isUpper=!isUpper; document.getElementById('s-upper').classList.toggle('active',isUpper);
-  const t=document.getElementById('t-'+selectedField); if(t)t.style.textTransform=isUpper?'uppercase':'none';
-}
-
-// ---- COLOR ----
-function setColor(val){
-  document.getElementById('txt-hex').textContent=val;
-  const t=document.getElementById('t-'+selectedField); if(t)t.style.color=val;
-  if(selectedField==='winners'){document.getElementById('ov-winners').style.color=val;updateWinners();}
-  if(selectedField==='quote'){document.getElementById('t-quote').style.color=val;document.getElementById('t-author').style.color=val;document.getElementById('q-mark').style.color=val;}
-}
-
-// ---- EFFECTS ----
-function toggleEffect(type){
-  effects[type]=!effects[type]; document.getElementById('s-'+type).classList.toggle('active',effects[type]);
-  updateEffect();
-}
-function updateEffect(){
-  if(!selectedField)return;
-  const t=document.getElementById('t-'+selectedField); if(!t)return;
-  const col=t.style.color||'#daa520', sc=document.getElementById('shadow-color').value;
-  let shadows=[];
-  if(effects.shadow) shadows.push(`3px 3px 6px ${sc}`);
-  if(effects.glow) shadows.push(`0 0 10px ${col},0 0 20px ${col}88`);
-  if(effects.outline) shadows.push(`-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000`);
-  t.style.textShadow=shadows.join(',')||'none';
-  if(selectedField==='winners')updateWinners();
-}
-
-// ---- BG BLOCK ----
-function setBgBlock(){
-  if(!selectedField)return;
-  const t=document.getElementById('t-'+selectedField); if(!t)return;
-  const col=document.getElementById('bg-color').value;
-  const op=parseInt(document.getElementById('bg-opacity').value)/100;
-  const r=parseInt(document.getElementById('bg-radius').value)||0;
-  const p=parseInt(document.getElementById('bg-pad').value)||0;
-  const rgb=hexToRgb(col);
-  t.style.background=op>0?`rgba(${rgb.r},${rgb.g},${rgb.b},${op})`:'transparent';
-  t.style.borderRadius=r+'px';
-  t.style.padding=p+'px';
-}
-
-// ---- BANNER ----
-function updateBanner(){
-  const show=document.getElementById('banner-show').checked;
-  const ov=document.getElementById('ov-banner');
-  ov.style.display=show?'block':'none';
-  if(!show)return;
-  const x=document.getElementById('banner-x').value, y=document.getElementById('banner-y').value;
-  const w=document.getElementById('banner-w').value, h=document.getElementById('banner-h').value;
-  const col=document.getElementById('banner-color').value, r=document.getElementById('banner-r').value;
-  const tc=document.getElementById('banner-tc').value;
-  ov.style.left=x+'px'; ov.style.top=y+'px';
-  const block=document.getElementById('banner-block');
-  block.style.background=col; block.style.borderRadius=r+'px';
-  block.style.width=w+'px'; block.style.height=h+'px';
-  const txt=document.getElementById('banner-txt');
-  txt.textContent=document.getElementById('banner-text').value;
-  txt.style.color=tc;
-}
-
-// ---- QUOTE STYLE ----
-function updateQuoteStyle(){
-  const qov=document.getElementById('ov-quote');
-  const bgcol=document.getElementById('q-bg').value;
-  const op=parseInt(document.getElementById('q-opacity').value)/100;
-  const tc=document.getElementById('q-tc').value, ac=document.getElementById('q-ac').value;
-  const fs=document.getElementById('q-fs').value, r=document.getElementById('q-r').value, w=document.getElementById('q-w').value;
-  const rgb=hexToRgb(bgcol);
-  qov.style.background=`rgba(${rgb.r},${rgb.g},${rgb.b},${op})`;
-  qov.style.borderRadius=r+'px'; qov.style.width=w+'px';
-  document.getElementById('t-quote').style.color=tc;
-  document.getElementById('t-quote').style.fontSize=fs+'px';
-  document.getElementById('t-author').style.color=ac;
-  document.getElementById('q-mark').style.color=ac;
-}
-
-// ---- DRAGGABLE ----
-function makeDraggable(el){
-  el.addEventListener('mousedown',function(e){
-    if(e.target.classList.contains('resize-dot'))return;
-    e.preventDefault();
-    const sx=e.clientX,sy=e.clientY,sl=el.offsetLeft,st=el.offsetTop;
-    function onMove(e){
-      el.style.left=Math.max(0,sl+e.clientX-sx)+'px';
-      el.style.top=Math.max(0,st+e.clientY-sy)+'px';
-      document.getElementById('pos-x').value=Math.round(parseInt(el.style.left));
-      document.getElementById('pos-y').value=Math.round(parseInt(el.style.top));
-    }
-    function onUp(){document.removeEventListener('mousemove',onMove);document.removeEventListener('mouseup',onUp);}
-    document.addEventListener('mousemove',onMove);
-    document.addEventListener('mouseup',onUp);
-  });
-}
-['ov-naam','ov-bedrag','ov-winrate','ov-tips','ov-winners','ov-quote','ov-banner'].forEach(id=>{
-  const el=document.getElementById(id); if(el)makeDraggable(el);
-});
-
-// ---- RESIZE ----
-function startResize(e,id){
-  e.stopPropagation();e.preventDefault();
-  const el=document.getElementById('t-'+id);
-  const sx=e.clientX,sy=e.clientY,sw=el.offsetWidth,sh=el.offsetHeight;
-  function onMove(e){
-    const w=Math.max(40,sw+e.clientX-sx),h=Math.max(16,sh+e.clientY-sy);
-    el.style.width=w+'px';el.style.height=h+'px';
-    document.getElementById('pos-w').value=Math.round(w);
-    document.getElementById('pos-h').value=Math.round(h);
-  }
-  function onUp(){document.removeEventListener('mousemove',onMove);document.removeEventListener('mouseup',onUp);}
-  document.addEventListener('mousemove',onMove);document.addEventListener('mouseup',onUp);
-}
 
 // ---- DOWNLOAD ----
 async function download(){
   const btn=document.getElementById('dl-btn');
   btn.disabled=true;btn.textContent='⏳ Bezig...';
-  document.querySelectorAll('.ov').forEach(el=>{el.classList.remove('selected');});
-  document.querySelectorAll('.ov-border').forEach(el=>el.style.borderColor='transparent');
-  document.querySelectorAll('.resize-dot').forEach(el=>el.style.opacity='0');
   try{
-    const c=await html2canvas(document.getElementById('preview-container'),{backgroundColor:null,scale:3,useCORS:true,allowTaint:true,logging:false});
-    const a=document.createElement('a');a.download='profit-recap.png';a.href=c.toDataURL('image/png');a.click();
+    const el=document.getElementById('tpl-'+currentTpl);
+    const canvas=await html2canvas(el,{backgroundColor:null,scale:3,useCORS:true,allowTaint:true,logging:false});
+    const a=document.createElement('a');a.download=`tipmasters-${currentTpl}.png`;a.href=canvas.toDataURL('image/png');a.click();
   }catch(e){alert('Download mislukt.');}
-  document.querySelectorAll('.ov-border').forEach(el=>el.style.borderColor='');
-  document.querySelectorAll('.resize-dot').forEach(el=>el.style.opacity='');
   btn.disabled=false;btn.textContent='⬇ Download PNG';
 }
 
-// ---- UTILS ----
-function rgbToHex(rgb){
-  if(!rgb)return'#daa520';if(rgb.startsWith('#'))return rgb;
-  const m=rgb.match(/\d+/g);if(!m)return'#daa520';
-  return'#'+m.slice(0,3).map(x=>parseInt(x).toString(16).padStart(2,'0')).join('');
-}
-function hexToRgb(hex){
-  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
-  return{r,g,b};
-}
-
-// Init
-updateWinners();
+// ---- INIT ----
+buildWinnerInputs();
+updateRecap();
+updateMaster();
 </script>
 </body>
 </html>
