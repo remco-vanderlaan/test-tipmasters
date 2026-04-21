@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f5f5f5; font-family: 'Open Sans', sans-serif; padding: 20px; }
+  .app { display: flex; flex-direction: column; gap: 20px; max-width: 500px; margin: 0 auto; }
+  .form-panel { background: #fff; border-radius: 14px; padding: 20px; border: 1px solid #ddd; }
+  .form-panel h2 { font-size: 14px; font-weight: 600; color: #333; margin-bottom: 16px; letter-spacing: 1px; }
+  .field { margin-bottom: 12px; }
+  .field label { display: block; font-size: 11px; color: #666; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .field input, .field textarea { width: 100%; padding: 8px 10px; background: #f9f9f9; border: 1px solid #ddd; border-radius: 6px; color: #333; font-size: 13px; font-family: 'Open Sans', sans-serif; outline: none; }
+  .field input:focus, .field textarea:focus { border-color: #4a9a2a; }
+  .field textarea { resize: vertical; min-height: 80px; }
+  .field-hint { font-size: 10px; color: #999; margin-top: 3px; }
+  .btn-update { width: 100%; padding: 10px; background: #1a4a0a; border: 1px solid #4a9a2a; border-radius: 8px; color: #c8e832; font-size: 13px; font-family: 'Cinzel', serif; letter-spacing: 1px; cursor: pointer; margin-bottom: 10px; }
+  .btn-update:hover { background: #2a6a1a; }
+  .btn-download { width: 100%; padding: 10px; background: linear-gradient(135deg, #daa520, #b8860b); border: none; border-radius: 8px; color: #071407; font-size: 13px; font-weight: 700; font-family: 'Cinzel', serif; letter-spacing: 1px; cursor: pointer; }
+  .btn-download:hover { background: linear-gradient(135deg, #f0b830, #daa520); }
+  .btn-download:disabled { opacity: 0.5; cursor: not-allowed; }
+  .download-note { font-size: 10px; color: #999; text-align: center; margin-top: 6px; }
+  .pr-wrap { background: #071407; border-radius: 14px; padding: 20px 18px 16px; font-family: 'Open Sans', sans-serif; border: 1.5px solid #2d5e1e; position: relative; overflow: hidden; }
+  .pr-wrap::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 40% at 10% 0%, #1a4a0a44 0%, transparent 60%), radial-gradient(ellipse 60% 50% at 90% 100%, #0d3a0555 0%, transparent 60%); pointer-events: none; }
+  .pr-inner { position: relative; z-index: 1; }
+  .pr-logo { text-align: center; margin-bottom: 8px; }
+  .pr-logo-circle { display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(145deg, #b8860b, #daa520, #8b6914); border: 2px solid #daa520; font-family: 'Cinzel', serif; font-size: 22px; font-weight: 900; color: #071407; }
+  .pr-title-box { text-align: center; margin-bottom: 10px; border: 1.5px solid #3d7a1e; border-radius: 8px; padding: 7px 16px; background: linear-gradient(180deg, #0e2a08 0%, #071407 100%); position: relative; }
+  .pr-title-box::before { content: '✦'; color: #daa520; font-size: 10px; position: absolute; left: 10px; top: 50%; transform: translateY(-50%); }
+  .pr-title-box::after { content: '✦'; color: #daa520; font-size: 10px; position: absolute; right: 10px; top: 50%; transform: translateY(-50%); }
+  .pr-title { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 900; color: #f0f0e8; letter-spacing: 4px; }
+  .pr-master-box { text-align: center; margin-bottom: 10px; border: 1px solid #3d7a1e; border-radius: 8px; padding: 8px; background: #0b2208; }
+  .pr-master-label { color: #daa520; font-size: 9px; letter-spacing: 2px; margin-bottom: 3px; }
+  .pr-master-name { font-family: 'Cinzel', serif; font-size: 18px; color: #daa520; font-weight: 700; }
+  .pr-amount-box { border: 1px solid #3d7a1e; border-radius: 8px; padding: 14px 10px 10px; background: #071407; text-align: center; margin-bottom: 10px; }
+  .pr-amount { font-family: 'Cinzel', serif; font-size: 42px; font-weight: 900; color: #c8e832; line-height: 1; }
+  .pr-amount-sub { color: #5a9a5a; font-size: 8px; letter-spacing: 2px; margin-top: 5px; }
+  .pr-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+  .pr-stat { border: 1px solid #3d7a1e; border-radius: 6px; padding: 8px 4px; background: #0b2208; text-align: center; }
+  .pr-stat-val { font-family: 'Cinzel', serif; font-size: 14px; color: #c8e832; font-weight: 700; }
+  .pr-stat-label { color: #5a9a5a; font-size: 8px; margin-top: 2px; letter-spacing: 1px; }
+  .pr-winners-box { border: 1px solid #3d7a1e; border-radius: 8px; overflow: hidden; background: #0b2208; }
+  .pr-winners-header { text-align: center; padding: 6px; border-bottom: 1px solid #3d7a1e; color: #daa520; font-size: 9px; letter-spacing: 2px; background: #0e2a08; }
+  .pr-winner-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 12px; border-bottom: 1px solid #152e0f; }
+  .pr-winner-row:last-child { border-bottom: none; }
+  .pr-winner-left { display: flex; align-items: center; gap: 6px; color: #a0c8a0; font-size: 12px; }
+  .pr-winner-check { color: #4aaa4a; font-size: 13px; }
+  .pr-win-badge { color: #c8e832; font-size: 11px; font-weight: 600; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="form-panel">
+    <h2>⚙ GEGEVENS INVULLEN</h2>
+    <div class="field"><label>TIP MASTER NAAM</label><input id="i-naam" type="text" value="Kees Nakoersen" /></div>
+    <div class="field"><label>TOTALE WINST (bijv. 293,00)</label><input id="i-bedrag" type="text" value="293,00" /></div>
+    <div class="field"><label>WINRATE (bijv. 64%)</label><input id="i-winrate" type="text" value="64%" /></div>
+    <div class="field"><label>AANTAL TIPS</label><input id="i-tips" type="text" value="12" /></div>
+    <div class="field">
+      <label>WINNAARS (één per regel)</label>
+      <textarea id="i-winners">Black Thunder - 14:30 Ascot
+Golden Storm - 16:00 Cheltenham
+Royal Flash - 17:45 Newmarket</textarea>
+      <div class="field-hint">Elke nieuwe regel wordt een aparte winnaar</div>
+    </div>
+    <button class="btn-update" onclick="update()">↺ PREVIEW BIJWERKEN</button>
+    <button class="btn-download" id="dl-btn" onclick="download()">⬇ DOWNLOAD ALS AFBEELDING</button>
+    <div class="download-note">Wordt opgeslagen als PNG — klaar voor social media</div>
+  </div>
+  <div class="pr-wrap" id="card">
+    <div class="pr-inner">
+      <div class="pr-logo"><div class="pr-logo-circle">T</div></div>
+      <div class="pr-title-box"><div class="pr-title">PROFIT RECAP</div></div>
+      <div class="pr-master-box">
+        <div class="pr-master-label">✦ TIP MASTER ✦</div>
+        <div class="pr-master-name" id="d-naam">Kees Nakoersen</div>
+        <div style="color:#daa520;font-size:9px;margin-top:3px;">✦</div>
+      </div>
+      <div class="pr-amount-box">
+        <div class="pr-amount" id="d-bedrag">€293,00</div>
+        <div class="pr-amount-sub">TOTALE WINST ALS JE ALLE TIPS SPEELDE</div>
+      </div>
+      <div class="pr-stats">
+        <div class="pr-stat"><div style="font-size:18px;">🏆</div></div>
+        <div class="pr-stat"><div class="pr-stat-val" id="d-tips">12</div><div class="pr-stat-label">TIPS</div></div>
+        <div class="pr-stat"><div class="pr-stat-val" id="d-winrate">64%</div><div class="pr-stat-label">WINRATE</div></div>
+      </div>
+      <div class="pr-winners-box">
+        <div class="pr-winners-header">✦ WINNAARS ✦</div>
+        <div id="d-winners">
+          <div class="pr-winner-row"><div class="pr-winner-left"><span class="pr-winner-check">✔</span><span>Black Thunder - 14:30 Ascot</span></div><span class="pr-win-badge">WIN</span></div>
+          <div class="pr-winner-row"><div class="pr-winner-left"><span class="pr-winner-check">✔</span><span>Golden Storm - 16:00 Cheltenham</span></div><span class="pr-win-badge">WIN</span></div>
+          <div class="pr-winner-row"><div class="pr-winner-left"><span class="pr-winner-check">✔</span><span>Royal Flash - 17:45 Newmarket</span></div><span class="pr-win-badge">WIN</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function update() {
+  document.getElementById('d-naam').textContent = document.getElementById('i-naam').value;
+  document.getElementById('d-bedrag').textContent = '€' + document.getElementById('i-bedrag').value;
+  document.getElementById('d-winrate').textContent = document.getElementById('i-winrate').value;
+  document.getElementById('d-tips').textContent = document.getElementById('i-tips').value;
+  const lines = document.getElementById('i-winners').value.split('\n').map(w => w.trim()).filter(Boolean);
+  document.getElementById('d-winners').innerHTML = lines.map((w, i) => `
+    <div class="pr-winner-row" style="${i < lines.length-1 ? '' : 'border-bottom:none'}">
+      <div class="pr-winner-left"><span class="pr-winner-check">✔</span><span>${w}</span></div>
+      <span class="pr-win-badge">WIN</span>
+    </div>
+  `).join('');
+}
+async function download() {
+  const btn = document.getElementById('dl-btn');
+  btn.disabled = true;
+  btn.textContent = '⏳ Bezig...';
+  try {
+    const canvas = await html2canvas(document.getElementById('card'), { backgroundColor: '#071407', scale: 3, useCORS: true, logging: false });
+    const link = document.createElement('a');
+    link.download = 'profit-recap-tipmasters.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  } catch(e) { alert('Download mislukt, probeer een screenshot.'); }
+  btn.disabled = false;
+  btn.textContent = '⬇ DOWNLOAD ALS AFBEELDING';
+}
+</script>
+</body>
+</html>
