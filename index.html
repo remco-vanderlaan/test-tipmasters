@@ -6,282 +6,392 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Open+Sans:wght@400;600;700&family=Montserrat:wght@400;700;900&family=Bebas+Neue&family=Oswald:wght@400;700&family=Raleway:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Anton&family=Roboto+Condensed:wght@400;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #111; font-family: 'Open Sans', sans-serif; min-height: 100vh; color: #ddd; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0f0f0f; font-family: 'Open Sans', sans-serif; color: #ccc; font-size: 12px; overflow: hidden; height: 100vh; }
 
-  /* HEADER */
-  .header { background: #1a1a1a; border-bottom: 1px solid #2a2a2a; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
-  .header-title { font-family: 'Cinzel', serif; color: #daa520; font-size: 16px; letter-spacing: 2px; }
-  .header-sub { font-size: 11px; color: #555; margin-top: 2px; }
+/* TOPBAR */
+.topbar { background: #1a1a1a; border-bottom: 1px solid #2a2a2a; height: 40px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; gap: 10px; }
+.topbar-left { display: flex; align-items: center; gap: 10px; }
+.app-title { font-family: 'Cinzel', serif; color: #daa520; font-size: 13px; letter-spacing: 1px; white-space: nowrap; }
+.preset-select { background: #111; border: 1px solid #333; border-radius: 4px; color: #ddd; padding: 4px 8px; font-size: 11px; height: 26px; min-width: 140px; }
+.tb-btn { background: #222; border: 1px solid #333; border-radius: 4px; color: #aaa; padding: 0 8px; height: 26px; cursor: pointer; font-size: 11px; white-space: nowrap; }
+.tb-btn:hover { background: #2a2a2a; color: #ddd; }
+.tb-btn.gold { background: linear-gradient(135deg,#b8860b,#daa520); color: #111; font-weight: 700; border: none; }
+.tb-btn.gold:hover { background: linear-gradient(135deg,#daa520,#f0b830); }
+.tb-btn.gold:disabled { opacity: 0.4; cursor: not-allowed; }
+.tb-btn.green { background: #1a3a0a; border-color: #3a7a1a; color: #8de832; }
+.tb-btn.green:hover { background: #2a5a1a; }
 
-  /* LAYOUT */
-  .layout { display: grid; grid-template-columns: 300px 1fr 260px; height: calc(100vh - 56px); }
+/* LAYOUT */
+.layout { display: grid; grid-template-columns: 320px 1fr; height: calc(100vh - 40px); }
 
-  /* PANELS */
-  .panel-left { background: #1a1a1a; border-right: 1px solid #2a2a2a; overflow-y: auto; }
-  .panel-right { background: #1a1a1a; border-left: 1px solid #2a2a2a; overflow-y: auto; }
-  .panel-center { background: #111; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px; overflow-y: auto; }
+/* SIDEBAR */
+.sidebar { background: #151515; border-right: 1px solid #222; overflow-y: auto; }
+.sidebar::-webkit-scrollbar { width: 3px; } .sidebar::-webkit-scrollbar-thumb { background: #333; }
 
-  .section { padding: 14px; border-bottom: 1px solid #222; }
-  .section-title { font-size: 10px; color: #555; letter-spacing: 2px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
-  .section-title span { background: #daa520; color: #111; border-radius: 50%; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; }
+/* ACCORDION SECTION */
+.acc { border-bottom: 1px solid #1e1e1e; }
+.acc-header { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; cursor: pointer; background: #181818; user-select: none; }
+.acc-header:hover { background: #1e1e1e; }
+.acc-title { font-size: 10px; letter-spacing: 1.5px; color: #888; font-weight: 600; }
+.acc-arrow { color: #555; font-size: 10px; transition: transform 0.2s; }
+.acc-arrow.open { transform: rotate(180deg); }
+.acc-body { padding: 10px 12px; display: none; }
+.acc-body.open { display: block; }
 
-  /* UPLOAD */
-  .upload-area { border: 2px dashed #333; border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: all 0.2s; }
-  .upload-area:hover { border-color: #daa520; background: #1f1f1f; }
-  .upload-area input { display: none; }
-  .upload-icon { font-size: 24px; margin-bottom: 6px; }
-  .upload-text { font-size: 11px; color: #666; }
-  .upload-text b { color: #daa520; }
+/* FORM ELEMENTS */
+.row { display: flex; align-items: center; gap: 6px; margin-bottom: 7px; flex-wrap: wrap; }
+.row label { font-size: 9px; color: #666; letter-spacing: 0.5px; white-space: nowrap; }
+.lbl { font-size: 9px; color: #555; margin-bottom: 2px; display: block; letter-spacing: 0.5px; }
 
-  /* TEMPLATES */
-  .template-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .template-thumb {
-    border-radius: 8px; overflow: hidden; cursor: pointer;
-    border: 2px solid #333; transition: border-color 0.2s; position: relative;
-    aspect-ratio: 1; background: #222;
-  }
-  .template-thumb:hover { border-color: #daa520; }
-  .template-thumb.active { border-color: #daa520; }
-  .template-thumb img { width: 100%; height: 100%; object-fit: cover; }
-  .template-thumb .t-label { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.7); font-size: 9px; color: #daa520; padding: 3px 6px; text-align: center; }
-  .template-thumb .t-delete { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.6); border: none; color: #ff5555; width: 18px; height: 18px; border-radius: 50%; font-size: 10px; cursor: pointer; display: none; align-items: center; justify-content: center; }
-  .template-thumb:hover .t-delete { display: flex; }
-  .template-name-input { width: 100%; margin-top: 8px; padding: 6px 8px; background: #111; border: 1px solid #333; border-radius: 6px; color: #ddd; font-size: 11px; outline: none; }
-  .template-name-input:focus { border-color: #daa520; }
+input[type=text], input[type=number], select, textarea {
+  background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 3px;
+  color: #ddd; padding: 3px 6px; font-size: 11px; font-family: inherit; outline: none;
+}
+input[type=text]:focus, input[type=number]:focus, select:focus, textarea:focus { border-color: #daa520; }
+input[type=number] { width: 52px; text-align: center; -moz-appearance: textfield; }
+input[type=number]::-webkit-inner-spin-button { opacity: 0; }
+textarea { width: 100%; resize: vertical; min-height: 50px; font-size: 11px; }
+input[type=color] { width: 26px; height: 22px; border: 1px solid #333; border-radius: 3px; padding: 1px; background: none; cursor: pointer; }
+input[type=range] { accent-color: #daa520; height: 3px; }
+select { height: 24px; }
 
-  /* FIELDS */
-  .field { margin-bottom: 10px; }
-  .field label { display: block; font-size: 10px; color: #666; margin-bottom: 4px; letter-spacing: 0.5px; }
-  .field input, .field textarea, .field select {
-    width: 100%; padding: 7px 10px;
-    background: #111; border: 1px solid #2a2a2a;
-    border-radius: 6px; color: #ddd;
-    font-size: 12px; font-family: 'Open Sans', sans-serif; outline: none;
-  }
-  .field input:focus, .field textarea:focus, .field select:focus { border-color: #daa520; }
-  .field textarea { resize: vertical; min-height: 70px; }
-  .field-hint { font-size: 10px; color: #444; margin-top: 3px; }
-  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.num-lbl { font-size: 9px; color: #444; }
 
-  /* STYLE CONTROLS */
-  .selected-field-label { font-size: 11px; color: #daa520; margin-bottom: 12px; padding: 6px 10px; background: #1f1a10; border-radius: 6px; border: 1px solid #3a2a10; }
+.full-input { width: 100%; padding: 5px 8px; background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 3px; color: #ddd; font-size: 11px; }
+.full-input:focus { border-color: #daa520; outline: none; }
 
-  .font-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
-  .font-opt {
-    padding: 8px 6px; background: #111; border: 1px solid #2a2a2a;
-    border-radius: 6px; cursor: pointer; text-align: center; font-size: 13px;
-    transition: all 0.2s; color: #ddd;
-  }
-  .font-opt:hover { border-color: #555; }
-  .font-opt.active { border-color: #daa520; background: #1f1a10; color: #daa520; }
+/* FIELD SELECTOR */
+.field-tabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+.ftab { padding: 4px 8px; background: #111; border: 1px solid #252525; border-radius: 3px; cursor: pointer; font-size: 10px; color: #888; transition: all 0.15s; }
+.ftab:hover { border-color: #444; color: #bbb; }
+.ftab.active { background: #1f1a0a; border-color: #daa520; color: #daa520; }
 
-  .style-row { display: flex; gap: 6px; margin-bottom: 10px; }
-  .style-btn {
-    flex: 1; padding: 7px 4px; background: #111; border: 1px solid #2a2a2a;
-    border-radius: 6px; cursor: pointer; font-size: 12px; color: #ddd;
-    transition: all 0.2s; text-align: center;
-  }
-  .style-btn:hover { border-color: #555; }
-  .style-btn.active { border-color: #daa520; background: #1f1a10; color: #daa520; }
+/* FONT PICKER */
+.font-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 4px; margin-bottom: 8px; }
+.fopt { padding: 5px 4px; background: #111; border: 1px solid #252525; border-radius: 3px; cursor: pointer; text-align: center; font-size: 11px; color: #888; transition: all 0.15s; }
+.fopt:hover { border-color: #444; }
+.fopt.active { border-color: #daa520; background: #1f1a0a; color: #daa520; }
 
-  .size-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-  .size-row input[type=range] { flex: 1; accent-color: #daa520; }
-  .size-val { font-size: 11px; color: #daa520; min-width: 32px; text-align: right; }
+/* STYLE BUTTONS */
+.style-row { display: flex; gap: 4px; margin-bottom: 7px; }
+.sbtn { flex: 1; padding: 5px; background: #111; border: 1px solid #252525; border-radius: 3px; cursor: pointer; font-size: 11px; color: #888; text-align: center; transition: all 0.15s; }
+.sbtn:hover { border-color: #444; }
+.sbtn.active { border-color: #daa520; background: #1f1a0a; color: #daa520; }
 
-  .color-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
-  .color-row label { font-size: 10px; color: #666; width: 50px; }
-  .color-row input[type=color] { width: 32px; height: 28px; border: 1px solid #333; border-radius: 4px; background: none; cursor: pointer; padding: 2px; }
+/* TEMPLATE THUMBS */
+.thumb-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 6px; }
+.thumb { border-radius: 4px; overflow: hidden; cursor: pointer; border: 1.5px solid #2a2a2a; aspect-ratio: 1; background: #1a1a1a; position: relative; transition: border-color 0.15s; }
+.thumb:hover, .thumb.active { border-color: #daa520; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; }
+.thumb .tlbl { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0,0,0,0.75); font-size: 8px; color: #daa520; padding: 2px 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.thumb .tdel { position: absolute; top: 2px; right: 2px; background: rgba(180,0,0,0.8); border: none; color: #fff; width: 14px; height: 14px; border-radius: 50%; font-size: 8px; cursor: pointer; display: none; align-items: center; justify-content: center; }
+.thumb:hover .tdel { display: flex; }
 
-  .effect-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 10px; }
-  .effect-btn {
-    padding: 7px 6px; background: #111; border: 1px solid #2a2a2a;
-    border-radius: 6px; cursor: pointer; font-size: 11px; color: #ddd;
-    transition: all 0.2s; text-align: center;
-  }
-  .effect-btn:hover { border-color: #555; }
-  .effect-btn.active { border-color: #daa520; background: #1f1a10; color: #daa520; }
+/* UPLOAD */
+.upload-box { border: 1.5px dashed #2a2a2a; border-radius: 6px; padding: 14px; text-align: center; cursor: pointer; transition: all 0.2s; margin-bottom: 8px; }
+.upload-box:hover { border-color: #daa520; background: #1a1a0a; }
+.upload-box input { display: none; }
+.upload-box p { font-size: 10px; color: #555; margin-top: 4px; }
+.upload-box b { color: #daa520; }
 
-  /* BUTTONS */
-  .btn { width: 100%; padding: 10px; border-radius: 8px; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 1px; cursor: pointer; border: none; margin-bottom: 8px; transition: all 0.2s; }
-  .btn-green { background: #1a4a0a; border: 1px solid #4a9a2a !important; color: #c8e832; border: none; }
-  .btn-green:hover { background: #2a6a1a; }
-  .btn-gold { background: linear-gradient(135deg, #daa520, #b8860b); color: #071407; font-weight: 700; }
-  .btn-gold:hover { background: linear-gradient(135deg, #f0b830, #daa520); }
-  .btn-gold:disabled { opacity: 0.4; cursor: not-allowed; }
+/* STATUS */
+.status { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 10px; font-size: 9px; }
+.status.ok { background: #0a2a0a; color: #4aaa4a; border: 1px solid #2a5a2a; }
+.status.empty { background: #1a1a1a; color: #555; border: 1px solid #2a2a2a; }
 
-  /* CANVAS */
-  .canvas-wrap {
-    position: relative; background: #0a0a0a;
-    border-radius: 12px; overflow: hidden;
-    border: 1px solid #2a2a2a;
-    min-width: 300px; min-height: 300px;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .no-template { text-align: center; color: #333; padding: 60px 40px; }
-  .no-template div { font-size: 48px; margin-bottom: 16px; }
-  .no-template p { font-size: 13px; line-height: 1.6; }
+/* CANVAS */
+.canvas-area { background: #0a0a0a; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px; overflow: auto; }
+.canvas-label { font-size: 10px; color: #444; margin-bottom: 10px; letter-spacing: 1px; }
 
-  #preview-container { position: relative; display: none; }
-  #bg-image { display: block; max-width: 100%; height: auto; }
+.canvas-wrap { position: relative; background: #111; border-radius: 8px; overflow: hidden; border: 1px solid #222; display: flex; align-items: center; justify-content: center; min-width: 200px; min-height: 200px; }
+.empty-canvas { text-align: center; color: #2a2a2a; padding: 80px 40px; }
+.empty-canvas div { font-size: 40px; margin-bottom: 12px; }
+.empty-canvas p { font-size: 12px; line-height: 1.7; }
 
-  /* TEXT OVERLAYS */
-  .text-overlay {
-    position: absolute; cursor: move; user-select: none;
-    padding: 3px 6px; border-radius: 3px;
-    border: 1px dashed rgba(218,165,32,0.4);
-    transition: border-color 0.15s;
-    line-height: 1.2;
-  }
-  .text-overlay:hover, .text-overlay.active { border-color: #daa520; }
-  .text-overlay.selected { border: 2px solid #daa520; border-radius: 4px; }
+#preview-container { position: relative; display: none; }
+#bg-image { display: block; max-width: 540px; max-height: calc(100vh - 120px); width: auto; height: auto; }
 
-  .winners-overlay {
-    position: absolute; cursor: move; user-select: none;
-    padding: 3px 6px; border-radius: 3px;
-    border: 1px dashed rgba(218,165,32,0.4);
-  }
-  .winners-overlay:hover, .winners-overlay.selected { border-color: #daa520; }
-  .winner-line { display: flex; align-items: center; gap: 6px; white-space: nowrap; line-height: 1.6; }
+/* OVERLAYS */
+.ov { position: absolute; cursor: move; user-select: none; }
+.ov .ov-border { position: absolute; inset: 0; border: 1px dashed rgba(218,165,32,0); border-radius: 2px; transition: border-color 0.15s; pointer-events: none; }
+.ov:hover .ov-border, .ov.selected .ov-border { border-color: rgba(218,165,32,0.6); }
+.ov.selected .ov-border { border-color: #daa520; }
+.ov-text { overflow: hidden; line-height: 1.2; white-space: nowrap; }
+.ov-block { overflow: hidden; }
+.ov-winners .winner-row { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.resize-dot { position: absolute; bottom: -3px; right: -3px; width: 8px; height: 8px; background: #daa520; border-radius: 50%; cursor: se-resize; opacity: 0; transition: opacity 0.15s; z-index: 10; }
+.ov.selected .resize-dot, .ov:hover .resize-dot { opacity: 1; }
 
-  .canvas-hint { font-size: 11px; color: #444; margin-top: 10px; text-align: center; }
+/* QUOTE BLOCK */
+.ov-quote { border-radius: 6px; padding: 10px 14px; }
+.q-mark { font-size: 28px; line-height: 0.9; font-family: Georgia, serif; opacity: 0.7; }
+.q-text { font-style: italic; line-height: 1.5; margin: 4px 0; }
+.q-author { font-size: 10px; opacity: 0.7; margin-top: 4px; }
 
-  /* SCROLLBAR */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: #111; }
-  ::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+/* DIVIDER */
+.divider { height: 1px; background: #1e1e1e; margin: 6px 0; }
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div>
-    <div class="header-title">⚙ TIP MASTERS EDITOR</div>
-    <div class="header-sub">Upload je template · Pas tekst aan · Download</div>
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="app-title">⚙ TIP MASTERS PRO</div>
+    <select class="preset-select" id="preset-select" onchange="loadPreset(this.value)">
+      <option value="">— Kies preset —</option>
+    </select>
+    <button class="tb-btn green" onclick="savePreset()">💾 Preset opslaan</button>
+    <button class="tb-btn" onclick="deletePreset()">🗑 Verwijder</button>
   </div>
-  <button class="btn btn-gold" id="dl-btn" onclick="download()" disabled style="width:auto;padding:8px 20px;margin:0;">⬇ DOWNLOAD PNG</button>
+  <div style="display:flex;gap:6px;align-items:center;">
+    <span id="tpl-status" class="status empty">Geen template</span>
+    <button class="tb-btn gold" id="dl-btn" onclick="download()" disabled>⬇ Download PNG</button>
+  </div>
 </div>
 
 <div class="layout">
 
-  <!-- LEFT: TEMPLATES + DATA -->
-  <div class="panel-left">
+  <!-- SIDEBAR -->
+  <div class="sidebar">
 
-    <div class="section">
-      <div class="section-title"><span>1</span> TEMPLATE UPLOADEN</div>
-      <div class="upload-area" onclick="document.getElementById('file-input').click()">
-        <input type="file" id="file-input" accept="image/*" onchange="loadImage(event)" />
-        <div class="upload-icon">🖼</div>
-        <div class="upload-text">Klik om te uploaden<br><b>PNG, JPG of WEBP</b></div>
+    <!-- TEMPLATE -->
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span class="acc-title">TEMPLATE</span>
+        <span class="acc-arrow open">▼</span>
       </div>
-      <input type="text" class="template-name-input" id="template-name" placeholder="Naam voor dit template..." />
-      <button class="btn btn-green" onclick="saveTemplate()" style="margin-top:8px;">💾 Template opslaan</button>
+      <div class="acc-body open">
+        <div class="upload-box" onclick="document.getElementById('file-input').click()">
+          <input type="file" id="file-input" accept="image/*" onchange="loadImage(event)" />
+          <div style="font-size:20px;">🖼</div>
+          <p>Klik om <b>PNG/JPG</b> te uploaden</p>
+        </div>
+        <div class="row">
+          <input type="text" id="tpl-name" placeholder="Template naam..." style="flex:1;" />
+          <button class="tb-btn green" onclick="saveTpl()">+ Opslaan</button>
+        </div>
+        <div class="thumb-grid" id="thumb-grid">
+          <div style="color:#333;font-size:10px;grid-column:span 3;text-align:center;padding:8px;">Nog geen templates</div>
+        </div>
+      </div>
     </div>
 
-    <div class="section">
-      <div class="section-title"><span>2</span> OPGESLAGEN TEMPLATES</div>
-      <div class="template-grid" id="template-grid">
-        <div style="color:#444;font-size:11px;grid-column:span 2;text-align:center;padding:10px;">Nog geen templates opgeslagen</div>
+    <!-- GEGEVENS -->
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span class="acc-title">GEGEVENS</span>
+        <span class="acc-arrow open">▼</span>
       </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title"><span>3</span> GEGEVENS</div>
-      <div class="field"><label>TIP MASTER NAAM</label><input id="i-naam" type="text" value="Kees Nakoersen" oninput="updateText('naam',this.value)" /></div>
-      <div class="field"><label>TOTALE WINST</label><input id="i-bedrag" type="text" value="€293,00" oninput="updateText('bedrag',this.value)" /></div>
-      <div class="field-row">
-        <div class="field"><label>WINRATE</label><input id="i-winrate" type="text" value="64%" oninput="updateText('winrate',this.value)" /></div>
-        <div class="field"><label>TIPS</label><input id="i-tips" type="text" value="12" oninput="updateText('tips',this.value)" /></div>
-      </div>
-      <div class="field">
-        <label>WINNAARS (één per regel)</label>
-        <textarea id="i-winners" oninput="updateWinners()">Black Thunder - 14:30
+      <div class="acc-body open">
+        <span class="lbl">NAAM</span>
+        <input type="text" class="full-input" id="i-naam" value="Kees Nakoersen" oninput="updateText('naam',this.value)" style="margin-bottom:6px;" />
+        <span class="lbl">WINST</span>
+        <input type="text" class="full-input" id="i-bedrag" value="€293,00" oninput="updateText('bedrag',this.value)" style="margin-bottom:6px;" />
+        <div class="row">
+          <div style="flex:1;"><span class="lbl">WINRATE</span><input type="text" class="full-input" id="i-winrate" value="64%" oninput="updateText('winrate',this.value)" /></div>
+          <div style="flex:1;"><span class="lbl">TIPS</span><input type="text" class="full-input" id="i-tips" value="12" oninput="updateText('tips',this.value)" /></div>
+        </div>
+        <span class="lbl" style="margin-top:4px;">WINNAARS (één per regel)</span>
+        <textarea id="i-winners" oninput="updateWinners()" style="margin-bottom:6px;">Black Thunder - 14:30
 Golden Storm - 16:00
 Royal Flash - 17:45</textarea>
-        <div class="field-hint">✔ per regel = winnaar</div>
+        <span class="lbl">QUOTE</span>
+        <textarea id="i-quote" oninput="updateQuote()" style="margin-bottom:6px;">"Consistent winnen begint met de juiste keuzes."</textarea>
+        <span class="lbl">QUOTE AUTEUR</span>
+        <input type="text" class="full-input" id="i-author" value="— Tip Masters" oninput="updateQuote()" />
+      </div>
+    </div>
+
+    <!-- POSITIE & TEKST -->
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span class="acc-title">POSITIE & TEKST</span>
+        <span class="acc-arrow open">▼</span>
+      </div>
+      <div class="acc-body open">
+        <div class="field-tabs" id="field-tabs">
+          <div class="ftab active" data-field="naam" onclick="selectField('naam',this)">Naam</div>
+          <div class="ftab" data-field="bedrag" onclick="selectField('bedrag',this)">Bedrag</div>
+          <div class="ftab" data-field="winrate" onclick="selectField('winrate',this)">Winrate</div>
+          <div class="ftab" data-field="tips" onclick="selectField('tips',this)">Tips</div>
+          <div class="ftab" data-field="winners" onclick="selectField('winners',this)">Winnaars</div>
+          <div class="ftab" data-field="quote" onclick="selectField('quote',this)">Quote</div>
+        </div>
+
+        <div class="row">
+          <label>X</label><input type="number" id="pos-x" value="60" oninput="setPosX(this.value)" />
+          <label>Y</label><input type="number" id="pos-y" value="200" oninput="setPosY(this.value)" />
+          <label>Font</label><input type="number" id="pos-fs" value="24" min="6" max="120" oninput="setSize(this.value)" />
+        </div>
+        <div class="row" id="wh-row">
+          <label>B</label><input type="number" id="pos-w" value="200" oninput="setWidth(this.value)" />
+          <label>H</label><input type="number" id="pos-h" value="36" oninput="setHeight(this.value)" />
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="font-grid" id="font-grid">
+          <div class="fopt active" style="font-family:'Cinzel',serif" data-font="'Cinzel',serif" onclick="setFont(this)">Cinzel</div>
+          <div class="fopt" style="font-family:'Montserrat',sans-serif" data-font="'Montserrat',sans-serif" onclick="setFont(this)">Montserrat</div>
+          <div class="fopt" style="font-family:'Bebas Neue',cursive" data-font="'Bebas Neue',cursive" onclick="setFont(this)">Bebas</div>
+          <div class="fopt" style="font-family:'Oswald',sans-serif" data-font="'Oswald',sans-serif" onclick="setFont(this)">Oswald</div>
+          <div class="fopt" style="font-family:'Raleway',sans-serif" data-font="'Raleway',sans-serif" onclick="setFont(this)">Raleway</div>
+          <div class="fopt" style="font-family:'Playfair Display',serif" data-font="'Playfair Display',serif" onclick="setFont(this)">Playfair</div>
+          <div class="fopt" style="font-family:'Anton',sans-serif" data-font="'Anton',sans-serif" onclick="setFont(this)">Anton</div>
+          <div class="fopt" style="font-family:'Poppins',sans-serif" data-font="'Poppins',sans-serif" onclick="setFont(this)">Poppins</div>
+          <div class="fopt" style="font-family:'Open Sans',sans-serif" data-font="'Open Sans',sans-serif" onclick="setFont(this)">Open Sans</div>
+        </div>
+
+        <div class="style-row">
+          <div class="sbtn active" id="s-bold" onclick="toggleBold()"><b>B</b></div>
+          <div class="sbtn" id="s-italic" onclick="toggleItalic()"><i>I</i></div>
+          <div class="sbtn" id="s-upper" onclick="toggleUpper()">AA</div>
+          <div class="sbtn" id="s-shadow" onclick="toggleEffect('shadow')">Schaduw</div>
+          <div class="sbtn" id="s-glow" onclick="toggleEffect('glow')">Glow</div>
+          <div class="sbtn" id="s-outline" onclick="toggleEffect('outline')">Outline</div>
+        </div>
+
+        <div class="row">
+          <label>Kleur</label>
+          <input type="color" id="txt-color" value="#daa520" oninput="setColor(this.value)" />
+          <span id="txt-hex" style="font-size:10px;color:#555;">#daa520</span>
+          <label style="margin-left:8px;">Schaduw</label>
+          <input type="color" id="shadow-color" value="#000000" oninput="updateEffect()" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ACHTERGRONDVLAK -->
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span class="acc-title">ACHTERGRONDVLAK</span>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="row">
+          <label>Kleur</label><input type="color" id="bg-color" value="#000000" oninput="setBgBlock()" />
+          <label>Opacity</label><input type="number" id="bg-opacity" value="0" min="0" max="100" oninput="setBgBlock()" />
+          <span class="num-lbl">%</span>
+          <label>Radius</label><input type="number" id="bg-radius" value="0" min="0" max="50" oninput="setBgBlock()" />
+        </div>
+        <div class="row">
+          <label>Pad</label><input type="number" id="bg-pad" value="6" min="0" max="40" oninput="setBgBlock()" />
+        </div>
+      </div>
+    </div>
+
+    <!-- BANNER -->
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span class="acc-title">BANNER</span>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="row">
+          <label>Toon</label>
+          <input type="checkbox" id="banner-show" onchange="updateBanner()" />
+          <label>Kleur</label><input type="color" id="banner-color" value="#1a3a6a" oninput="updateBanner()" />
+        </div>
+        <div class="row">
+          <label>X</label><input type="number" id="banner-x" value="30" oninput="updateBanner()" />
+          <label>Y</label><input type="number" id="banner-y" value="160" oninput="updateBanner()" />
+          <label>B</label><input type="number" id="banner-w" value="300" oninput="updateBanner()" />
+          <label>H</label><input type="number" id="banner-h" value="36" oninput="updateBanner()" />
+        </div>
+        <div class="row">
+          <label>Radius</label><input type="number" id="banner-r" value="4" min="0" max="30" oninput="updateBanner()" />
+          <label>Tekst kleur</label><input type="color" id="banner-tc" value="#ffffff" oninput="updateBanner()" />
+        </div>
+        <span class="lbl">BANNER TEKST</span>
+        <input type="text" class="full-input" id="banner-text" value="PROFIT RECAP" oninput="updateBanner()" />
+      </div>
+    </div>
+
+    <!-- QUOTE STIJL -->
+    <div class="acc">
+      <div class="acc-header" onclick="toggleAcc(this)">
+        <span class="acc-title">QUOTE STIJL</span>
+        <span class="acc-arrow">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="row">
+          <label>Achtergrond</label><input type="color" id="q-bg" value="#000000" oninput="updateQuoteStyle()" />
+          <label>Opacity</label><input type="number" id="q-opacity" value="50" min="0" max="100" oninput="updateQuoteStyle()" />
+          <span class="num-lbl">%</span>
+        </div>
+        <div class="row">
+          <label>Tekstkleur</label><input type="color" id="q-tc" value="#f0e8c8" oninput="updateQuoteStyle()" />
+          <label>Accentkleur</label><input type="color" id="q-ac" value="#daa520" oninput="updateQuoteStyle()" />
+        </div>
+        <div class="row">
+          <label>Font</label><input type="number" id="q-fs" value="13" min="8" max="40" oninput="updateQuoteStyle()" />
+          <label>Radius</label><input type="number" id="q-r" value="6" min="0" max="20" oninput="updateQuoteStyle()" />
+          <label>Breedte</label><input type="number" id="q-w" value="220" min="80" max="600" oninput="updateQuoteStyle()" />
+        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- CENTER: CANVAS -->
-  <div class="panel-center">
+  <!-- CANVAS -->
+  <div class="canvas-area">
+    <div class="canvas-label">PREVIEW — sleep velden · gebruik X/Y voor exacte positie</div>
     <div class="canvas-wrap" id="canvas-wrap">
-      <div class="no-template" id="no-template">
+      <div class="empty-canvas" id="empty-canvas">
         <div>🖼</div>
-        <p>Upload je Canva template<br>om te beginnen</p>
+        <p>Upload een template<br>om te beginnen</p>
       </div>
       <div id="preview-container">
         <img id="bg-image" src="" alt="template" crossorigin="anonymous" />
-        <div class="text-overlay" id="ov-naam" style="top:20%;left:20%;color:#daa520;font-size:28px;font-family:'Cinzel',serif;font-weight:700;" onclick="selectField('naam')">
-          <span id="t-naam">Kees Nakoersen</span>
+
+        <!-- BANNER -->
+        <div class="ov" id="ov-banner" style="display:none;left:30px;top:160px;">
+          <div id="banner-block" style="background:#1a3a6a;border-radius:4px;padding:6px 14px;display:flex;align-items:center;">
+            <span id="banner-txt" style="color:#fff;font-family:'Cinzel',serif;font-size:14px;font-weight:700;letter-spacing:1px;">PROFIT RECAP</span>
+          </div>
+          <div class="ov-border"></div>
         </div>
-        <div class="text-overlay" id="ov-bedrag" style="top:37%;left:15%;color:#c8e832;font-size:48px;font-family:'Cinzel',serif;font-weight:700;" onclick="selectField('bedrag')">
-          <span id="t-bedrag">€293,00</span>
+
+        <!-- NAAM -->
+        <div class="ov" id="ov-naam" style="left:60px;top:200px;" onclick="selectField('naam',null)">
+          <div class="ov-text" id="t-naam" style="color:#daa520;font-size:24px;font-family:'Cinzel',serif;font-weight:700;width:220px;height:34px;text-shadow:2px 2px 4px #000;">Kees Nakoersen</div>
+          <div class="ov-border"></div><div class="resize-dot" onmousedown="startResize(event,'naam')"></div>
         </div>
-        <div class="text-overlay" id="ov-winrate" style="top:58%;left:55%;color:#c8e832;font-size:22px;font-family:'Cinzel',serif;font-weight:700;" onclick="selectField('winrate')">
-          <span id="t-winrate">64%</span>
+
+        <!-- BEDRAG -->
+        <div class="ov" id="ov-bedrag" style="left:60px;top:250px;" onclick="selectField('bedrag',null)">
+          <div class="ov-text" id="t-bedrag" style="color:#c8e832;font-size:48px;font-family:'Cinzel',serif;font-weight:700;width:280px;height:60px;text-shadow:0 0 20px #7ab00066;">€293,00</div>
+          <div class="ov-border"></div><div class="resize-dot" onmousedown="startResize(event,'bedrag')"></div>
         </div>
-        <div class="text-overlay" id="ov-tips" style="top:58%;left:30%;color:#c8e832;font-size:22px;font-family:'Cinzel',serif;font-weight:700;" onclick="selectField('tips')">
-          <span id="t-tips">12</span>
+
+        <!-- WINRATE -->
+        <div class="ov" id="ov-winrate" style="left:200px;top:320px;" onclick="selectField('winrate',null)">
+          <div class="ov-text" id="t-winrate" style="color:#c8e832;font-size:20px;font-family:'Cinzel',serif;font-weight:700;width:90px;height:28px;">64%</div>
+          <div class="ov-border"></div><div class="resize-dot" onmousedown="startResize(event,'winrate')"></div>
         </div>
-        <div class="winners-overlay" id="ov-winners" style="top:70%;left:10%;" onclick="selectField('winners')">
+
+        <!-- TIPS -->
+        <div class="ov" id="ov-tips" style="left:120px;top:320px;" onclick="selectField('tips',null)">
+          <div class="ov-text" id="t-tips" style="color:#c8e832;font-size:20px;font-family:'Cinzel',serif;font-weight:700;width:70px;height:28px;">12</div>
+          <div class="ov-border"></div><div class="resize-dot" onmousedown="startResize(event,'tips')"></div>
+        </div>
+
+        <!-- WINNERS -->
+        <div class="ov ov-winners" id="ov-winners" style="left:60px;top:360px;" onclick="selectField('winners',null)">
           <div id="t-winners"></div>
+          <div class="ov-border"></div>
         </div>
-      </div>
-    </div>
-    <div class="canvas-hint">Klik op een tekstveld om het te selecteren · Sleep om te verplaatsen</div>
-  </div>
 
-  <!-- RIGHT: STYLE -->
-  <div class="panel-right">
-    <div class="section">
-      <div class="section-title"><span>4</span> TEKSTSTIJL</div>
-      <div class="selected-field-label" id="selected-label">👆 Klik op een tekstveld</div>
+        <!-- QUOTE -->
+        <div class="ov ov-quote" id="ov-quote" style="left:60px;top:440px;width:220px;background:rgba(0,0,0,0.5);border-radius:6px;padding:10px 14px;" onclick="selectField('quote',null)">
+          <div class="q-mark" id="q-mark" style="color:#daa520;">"</div>
+          <div class="q-text" id="t-quote" style="font-size:13px;color:#f0e8c8;font-family:'Playfair Display',serif;">"Consistent winnen begint met de juiste keuzes."</div>
+          <div class="q-author" id="t-author" style="color:#daa520;font-size:10px;">— Tip Masters</div>
+          <div class="ov-border"></div>
+        </div>
 
-      <div class="field"><label>LETTERTYPE</label></div>
-      <div class="font-grid" id="font-grid">
-        <div class="font-opt active" style="font-family:'Cinzel',serif" data-font="'Cinzel',serif" onclick="setFont(this)">Cinzel</div>
-        <div class="font-opt" style="font-family:'Montserrat',sans-serif" data-font="'Montserrat',sans-serif" onclick="setFont(this)">Montserrat</div>
-        <div class="font-opt" style="font-family:'Bebas Neue',cursive" data-font="'Bebas Neue',cursive" onclick="setFont(this)">Bebas Neue</div>
-        <div class="font-opt" style="font-family:'Oswald',sans-serif" data-font="'Oswald',sans-serif" onclick="setFont(this)">Oswald</div>
-        <div class="font-opt" style="font-family:'Raleway',sans-serif" data-font="'Raleway',sans-serif" onclick="setFont(this)">Raleway</div>
-        <div class="font-opt" style="font-family:'Playfair Display',serif" data-font="'Playfair Display',serif" onclick="setFont(this)">Playfair</div>
-        <div class="font-opt" style="font-family:'Anton',sans-serif" data-font="'Anton',sans-serif" onclick="setFont(this)">Anton</div>
-        <div class="font-opt" style="font-family:'Poppins',sans-serif" data-font="'Poppins',sans-serif" onclick="setFont(this)">Poppins</div>
-        <div class="font-opt" style="font-family:'Roboto Condensed',sans-serif" data-font="'Roboto Condensed',sans-serif" onclick="setFont(this)">Roboto C.</div>
-        <div class="font-opt" style="font-family:'Open Sans',sans-serif" data-font="'Open Sans',sans-serif" onclick="setFont(this)">Open Sans</div>
-      </div>
-
-      <div class="style-row">
-        <div class="style-btn active" id="btn-bold" onclick="toggleBold()"><b>B</b></div>
-        <div class="style-btn" id="btn-italic" onclick="toggleItalic()"><i>I</i></div>
-        <div class="style-btn" id="btn-upper" onclick="toggleUpper()">AA</div>
-      </div>
-
-      <div class="field"><label>GROOTTE</label></div>
-      <div class="size-row">
-        <input type="range" min="8" max="100" value="28" id="size-slider" oninput="setSize(this.value)" />
-        <div class="size-val" id="size-val">28px</div>
-      </div>
-
-      <div class="color-row">
-        <label>KLEUR</label>
-        <input type="color" id="color-picker" value="#daa520" oninput="setColor(this.value)" />
-        <span id="color-hex" style="font-size:11px;color:#666;">#daa520</span>
-      </div>
-
-      <div class="field"><label>EFFECTEN</label></div>
-      <div class="effect-grid">
-        <div class="effect-btn" id="eff-shadow" onclick="toggleEffect('shadow')">Schaduw</div>
-        <div class="effect-btn" id="eff-glow" onclick="toggleEffect('glow')">Glow</div>
-        <div class="effect-btn" id="eff-outline" onclick="toggleEffect('outline')">Outline</div>
-        <div class="effect-btn" id="eff-none" onclick="clearEffects()">Geen effect</div>
-      </div>
-
-      <div class="color-row" id="shadow-color-row" style="display:none;">
-        <label>SCHADUW</label>
-        <input type="color" id="shadow-color" value="#000000" oninput="updateEffect()" />
       </div>
     </div>
   </div>
@@ -289,263 +399,371 @@ Royal Flash - 17:45</textarea>
 </div>
 
 <script>
-const FONTS = [];
-let selectedField = null;
-let templates = JSON.parse(localStorage.getItem('tm_templates') || '[]');
-let effects = { shadow: false, glow: false, outline: false };
-let isUppercase = false;
-let isBold = true;
-let isItalic = false;
+// ---- STATE ----
+let selectedField = 'naam';
+let isBold=true, isItalic=false, isUpper=false;
+let effects={shadow:false,glow:false,outline:false};
+let templates=[], presets=[];
+let currentImageData=null;
+try { templates=JSON.parse(localStorage.getItem('tm_tpls')||'[]'); } catch(e){}
+try { presets=JSON.parse(localStorage.getItem('tm_presets')||'[]'); } catch(e){}
 
-// ---- FIELD SELECTION ----
-function selectField(id) {
-  document.querySelectorAll('.text-overlay, .winners-overlay').forEach(el => el.classList.remove('selected'));
-  selectedField = id;
-  const el = document.getElementById('ov-' + id);
-  if (el) el.classList.add('selected');
-
-  const labels = { naam: 'NAAM', bedrag: 'BEDRAG', winrate: 'WINRATE', tips: 'TIPS', winners: 'WINNAARS' };
-  document.getElementById('selected-label').textContent = '✏ ' + (labels[id] || id) + ' geselecteerd';
-
-  // Sync controls to current field style
-  const style = window.getComputedStyle(el);
-  const fs = parseInt(el.style.fontSize) || 28;
-  document.getElementById('size-slider').value = fs;
-  document.getElementById('size-val').textContent = fs + 'px';
-
-  const col = el.style.color || '#daa520';
-  document.getElementById('color-picker').value = rgbToHex(col);
-  document.getElementById('color-hex').textContent = rgbToHex(col);
-
-  // Font
-  document.querySelectorAll('.font-opt').forEach(f => {
-    f.classList.toggle('active', el.style.fontFamily === f.dataset.font);
-  });
-
-  isBold = el.style.fontWeight === '700' || el.style.fontWeight === 'bold';
-  isItalic = el.style.fontStyle === 'italic';
-  document.getElementById('btn-bold').classList.toggle('active', isBold);
-  document.getElementById('btn-italic').classList.toggle('active', isItalic);
+// ---- ACCORDION ----
+function toggleAcc(header) {
+  const body = header.nextElementSibling;
+  const arrow = header.querySelector('.acc-arrow');
+  body.classList.toggle('open');
+  arrow.classList.toggle('open');
 }
 
-// ---- TEXT UPDATE ----
-function updateText(id, val) {
-  const el = document.getElementById('t-' + id);
-  if (el) el.textContent = isUppercase && selectedField === id ? val.toUpperCase() : val;
-}
-
-function updateWinners() {
-  const ov = document.getElementById('ov-winners');
-  const color = ov.style.color || '#a0c8a0';
-  const size = ov.style.fontSize || '16px';
-  const font = ov.style.fontFamily || "'Open Sans',sans-serif";
-  const weight = ov.style.fontWeight || '400';
-  const style = ov.style.fontStyle || 'normal';
-  const shadow = ov.style.textShadow || 'none';
-
-  const lines = document.getElementById('i-winners').value.split('\n').map(w => w.trim()).filter(Boolean);
-  document.getElementById('t-winners').innerHTML = lines.map(w => `
-    <div class="winner-line" style="color:${color};font-size:${size};font-family:${font};font-weight:${weight};font-style:${style};text-shadow:${shadow};">
-      <span style="color:#4aaa4a;">✔</span><span>${w}</span>
-      <span style="margin-left:10px;color:#c8e832;font-weight:700;">WIN</span>
-    </div>
-  `).join('');
-}
-
-// ---- FONT ----
-function setFont(el) {
-  if (!selectedField) return;
-  document.querySelectorAll('.font-opt').forEach(f => f.classList.remove('active'));
-  el.classList.add('active');
-  const ov = document.getElementById('ov-' + selectedField);
-  ov.style.fontFamily = el.dataset.font;
-  if (selectedField === 'winners') updateWinners();
-}
-
-// ---- BOLD / ITALIC / UPPERCASE ----
-function toggleBold() {
-  if (!selectedField) return;
-  isBold = !isBold;
-  document.getElementById('btn-bold').classList.toggle('active', isBold);
-  const ov = document.getElementById('ov-' + selectedField);
-  ov.style.fontWeight = isBold ? '700' : '400';
-  if (selectedField === 'winners') updateWinners();
-}
-
-function toggleItalic() {
-  if (!selectedField) return;
-  isItalic = !isItalic;
-  document.getElementById('btn-italic').classList.toggle('active', isItalic);
-  const ov = document.getElementById('ov-' + selectedField);
-  ov.style.fontStyle = isItalic ? 'italic' : 'normal';
-  if (selectedField === 'winners') updateWinners();
-}
-
-function toggleUpper() {
-  if (!selectedField) return;
-  isUppercase = !isUppercase;
-  document.getElementById('btn-upper').classList.toggle('active', isUppercase);
-  const el = document.getElementById('t-' + selectedField);
-  if (el) el.style.textTransform = isUppercase ? 'uppercase' : 'none';
-}
-
-// ---- SIZE ----
-function setSize(val) {
-  if (!selectedField) return;
-  document.getElementById('size-val').textContent = val + 'px';
-  const ov = document.getElementById('ov-' + selectedField);
-  ov.style.fontSize = val + 'px';
-  if (selectedField === 'winners') updateWinners();
-}
-
-// ---- COLOR ----
-function setColor(val) {
-  if (!selectedField) return;
-  document.getElementById('color-hex').textContent = val;
-  const ov = document.getElementById('ov-' + selectedField);
-  ov.style.color = val;
-  if (selectedField === 'winners') updateWinners();
-}
-
-// ---- EFFECTS ----
-function toggleEffect(type) {
-  effects[type] = !effects[type];
-  document.getElementById('eff-' + type).classList.toggle('active', effects[type]);
-  if (type === 'shadow') document.getElementById('shadow-color-row').style.display = effects.shadow ? 'flex' : 'none';
-  updateEffect();
-}
-
-function clearEffects() {
-  effects = { shadow: false, glow: false, outline: false };
-  ['shadow','glow','outline'].forEach(t => document.getElementById('eff-' + t).classList.remove('active'));
-  document.getElementById('shadow-color-row').style.display = 'none';
-  updateEffect();
-}
-
-function updateEffect() {
-  if (!selectedField) return;
-  const ov = document.getElementById('ov-' + selectedField);
-  let shadows = [];
-  if (effects.shadow) {
-    const sc = document.getElementById('shadow-color').value;
-    shadows.push(`3px 3px 6px ${sc}`);
-  }
-  if (effects.glow) {
-    const col = ov.style.color || '#daa520';
-    shadows.push(`0 0 10px ${col}, 0 0 20px ${col}88`);
-  }
-  if (effects.outline) {
-    shadows.push(`-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000`);
-  }
-  ov.style.textShadow = shadows.join(', ') || 'none';
-  if (selectedField === 'winners') updateWinners();
-}
-
-// ---- DRAGGABLE ----
-function makeDraggable(el) {
-  let startX, startY, startLeft, startTop, dragging = false;
-  el.addEventListener('mousedown', function(e) {
-    if (e.target.tagName === 'INPUT') return;
-    dragging = true;
-    startX = e.clientX; startY = e.clientY;
-    startLeft = el.offsetLeft; startTop = el.offsetTop;
-    function onMove(e) {
-      if (!dragging) return;
-      el.style.left = Math.max(0, startLeft + e.clientX - startX) + 'px';
-      el.style.top = Math.max(0, startTop + e.clientY - startY) + 'px';
-    }
-    function onUp() { dragging = false; document.removeEventListener('mousemove', onMove); document.removeEventListener('mouseup', onUp); }
-    document.addEventListener('mousemove', onMove);
-    document.addEventListener('mouseup', onUp);
-  });
-}
-['ov-naam','ov-bedrag','ov-winrate','ov-tips','ov-winners'].forEach(id => makeDraggable(document.getElementById(id)));
-
-// ---- IMAGE LOAD ----
-let currentImageData = null;
+// ---- IMAGE ----
 function loadImage(e) {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if(!file) return;
   const reader = new FileReader();
-  reader.onload = function(ev) {
-    currentImageData = ev.target.result;
-    showImage(currentImageData);
-  };
+  reader.onload = ev => { currentImageData = ev.target.result; showImage(currentImageData); };
   reader.readAsDataURL(file);
 }
-
 function showImage(src) {
   const img = document.getElementById('bg-image');
   img.src = src;
-  img.onload = function() {
-    document.getElementById('no-template').style.display = 'none';
-    document.getElementById('preview-container').style.display = 'block';
-    document.getElementById('dl-btn').disabled = false;
-    updateWinners();
+  img.onload = () => {
+    document.getElementById('empty-canvas').style.display='none';
+    document.getElementById('preview-container').style.display='block';
+    document.getElementById('dl-btn').disabled=false;
+    document.getElementById('tpl-status').className='status ok';
+    document.getElementById('tpl-status').textContent='Template geladen';
+    updateWinners(); updateBanner();
   };
 }
 
-// ---- SAVE TEMPLATE ----
-function saveTemplate() {
-  if (!currentImageData) return alert('Upload eerst een afbeelding.');
-  const name = document.getElementById('template-name').value || 'Template ' + (templates.length + 1);
-  const tpl = { id: Date.now(), name, src: currentImageData };
-  templates.push(tpl);
-  localStorage.setItem('tm_templates', JSON.stringify(templates));
-  renderTemplates();
-  document.getElementById('template-name').value = '';
+// ---- TEMPLATES ----
+function saveTpl() {
+  if(!currentImageData) return alert('Upload eerst een afbeelding.');
+  const name = document.getElementById('tpl-name').value || 'Template '+(templates.length+1);
+  templates.push({id:Date.now(),name,src:currentImageData});
+  try{localStorage.setItem('tm_tpls',JSON.stringify(templates));}catch(e){}
+  renderThumbs(); document.getElementById('tpl-name').value='';
 }
-
-function deleteTemplate(id) {
-  templates = templates.filter(t => t.id !== id);
-  localStorage.setItem('tm_templates', JSON.stringify(templates));
-  renderTemplates();
+function deleteTpl(id) {
+  templates=templates.filter(t=>t.id!==id);
+  try{localStorage.setItem('tm_tpls',JSON.stringify(templates));}catch(e){}
+  renderThumbs();
 }
-
-function loadTemplate(tpl) {
-  currentImageData = tpl.src;
-  showImage(tpl.src);
-  document.querySelectorAll('.template-thumb').forEach(el => el.classList.remove('active'));
-  document.getElementById('tpl-' + tpl.id)?.classList.add('active');
+function renderThumbs() {
+  const g=document.getElementById('thumb-grid');
+  if(!templates.length){g.innerHTML='<div style="color:#333;font-size:10px;grid-column:span 3;text-align:center;padding:8px;">Nog geen templates</div>';return;}
+  g.innerHTML=templates.map(t=>`
+    <div class="thumb" id="th-${t.id}" onclick="loadTpl(${t.id})">
+      <img src="${t.src}" /><div class="tlbl">${t.name}</div>
+      <button class="tdel" onclick="event.stopPropagation();deleteTpl(${t.id})">✕</button>
+    </div>`).join('');
 }
+function loadTpl(id) {
+  const t=templates.find(t=>t.id===id); if(!t)return;
+  currentImageData=t.src; showImage(t.src);
+  document.querySelectorAll('.thumb').forEach(el=>el.classList.remove('active'));
+  const el=document.getElementById('th-'+id); if(el)el.classList.add('active');
+}
+renderThumbs();
 
-function renderTemplates() {
-  const grid = document.getElementById('template-grid');
-  if (!templates.length) {
-    grid.innerHTML = '<div style="color:#444;font-size:11px;grid-column:span 2;text-align:center;padding:10px;">Nog geen templates opgeslagen</div>';
-    return;
+// ---- PRESETS ----
+function savePreset() {
+  const name = prompt('Naam voor deze preset:'); if(!name)return;
+  const state = captureState();
+  const existing = presets.findIndex(p=>p.name===name);
+  if(existing>=0) presets[existing]=({name,...state}); else presets.push({name,...state});
+  try{localStorage.setItem('tm_presets',JSON.stringify(presets));}catch(e){}
+  renderPresets();
+}
+function loadPreset(name) {
+  const p=presets.find(p=>p.name===name); if(!p)return;
+  applyState(p);
+}
+function deletePreset() {
+  const name=document.getElementById('preset-select').value; if(!name)return;
+  presets=presets.filter(p=>p.name!==name);
+  try{localStorage.setItem('tm_presets',JSON.stringify(presets));}catch(e){}
+  renderPresets();
+}
+function renderPresets() {
+  const sel=document.getElementById('preset-select');
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— Kies preset —</option>'+presets.map(p=>`<option value="${p.name}">${p.name}</option>`).join('');
+  if(cur) sel.value=cur;
+}
+function captureState() {
+  return {
+    naam: document.getElementById('i-naam').value,
+    bedrag: document.getElementById('i-bedrag').value,
+    winrate: document.getElementById('i-winrate').value,
+    tips: document.getElementById('i-tips').value,
+    winners: document.getElementById('i-winners').value,
+    quote: document.getElementById('i-quote').value,
+    author: document.getElementById('i-author').value,
+    positions: ['naam','bedrag','winrate','tips','winners','quote','banner'].reduce((acc,id)=>{
+      const el=document.getElementById('ov-'+id);
+      if(el) acc[id]={left:el.style.left,top:el.style.top};
+      return acc;
+    },{}),
+    bannerShow: document.getElementById('banner-show').checked,
+    bannerText: document.getElementById('banner-text').value,
+  };
+}
+function applyState(p) {
+  if(p.naam){document.getElementById('i-naam').value=p.naam;updateText('naam',p.naam);}
+  if(p.bedrag){document.getElementById('i-bedrag').value=p.bedrag;updateText('bedrag',p.bedrag);}
+  if(p.winrate){document.getElementById('i-winrate').value=p.winrate;updateText('winrate',p.winrate);}
+  if(p.tips){document.getElementById('i-tips').value=p.tips;updateText('tips',p.tips);}
+  if(p.winners){document.getElementById('i-winners').value=p.winners;updateWinners();}
+  if(p.quote){document.getElementById('i-quote').value=p.quote;}
+  if(p.author){document.getElementById('i-author').value=p.author;}
+  updateQuote();
+  if(p.positions){
+    Object.entries(p.positions).forEach(([id,pos])=>{
+      const el=document.getElementById('ov-'+id);
+      if(el){el.style.left=pos.left;el.style.top=pos.top;}
+    });
   }
-  grid.innerHTML = templates.map(t => `
-    <div class="template-thumb" id="tpl-${t.id}" onclick="loadTemplate(${JSON.stringify(t).replace(/"/g,'&quot;')})">
-      <img src="${t.src}" alt="${t.name}" />
-      <div class="t-label">${t.name}</div>
-      <button class="t-delete" onclick="event.stopPropagation();deleteTemplate(${t.id})">✕</button>
-    </div>
-  `).join('');
+  if(p.bannerText){document.getElementById('banner-text').value=p.bannerText;}
+  if(p.bannerShow!==undefined){document.getElementById('banner-show').checked=p.bannerShow;}
+  updateBanner();
 }
-renderTemplates();
+renderPresets();
+
+// ---- FIELD SELECTION ----
+function selectField(id, tabEl) {
+  selectedField=id;
+  document.querySelectorAll('.ov').forEach(el=>el.classList.remove('selected'));
+  const ov=document.getElementById('ov-'+id); if(ov) ov.classList.add('selected');
+  if(tabEl){document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('active'));tabEl.classList.add('active');}
+  else{document.querySelectorAll('.ftab').forEach(t=>t.classList.toggle('active',t.dataset.field===id));}
+
+  // Sync position inputs
+  if(ov){
+    document.getElementById('pos-x').value=parseInt(ov.style.left)||0;
+    document.getElementById('pos-y').value=parseInt(ov.style.top)||0;
+  }
+  const txt=document.getElementById('t-'+id);
+  if(txt){
+    document.getElementById('pos-fs').value=parseInt(txt.style.fontSize)||24;
+    document.getElementById('pos-w').value=parseInt(txt.style.width)||200;
+    document.getElementById('pos-h').value=parseInt(txt.style.height)||34;
+  }
+  const whr=document.getElementById('wh-row');
+  whr.style.display=(id==='winners'||id==='quote')?'none':'flex';
+
+  // Sync color
+  const col=(txt&&txt.style.color)||'#daa520';
+  document.getElementById('txt-color').value=rgbToHex(col);
+  document.getElementById('txt-hex').textContent=rgbToHex(col);
+
+  // Sync font
+  if(txt){
+    document.querySelectorAll('.fopt').forEach(f=>f.classList.toggle('active',txt.style.fontFamily===f.dataset.font));
+    isBold=txt.style.fontWeight==='700'||txt.style.fontWeight==='bold';
+    isItalic=txt.style.fontStyle==='italic';
+    document.getElementById('s-bold').classList.toggle('active',isBold);
+    document.getElementById('s-italic').classList.toggle('active',isItalic);
+  }
+}
+selectField('naam',null);
+
+// ---- POSITION FROM INPUTS ----
+function setPosX(v){const el=document.getElementById('ov-'+selectedField);if(el)el.style.left=v+'px';}
+function setPosY(v){const el=document.getElementById('ov-'+selectedField);if(el)el.style.top=v+'px';}
+function setWidth(v){const el=document.getElementById('t-'+selectedField);if(el)el.style.width=v+'px';}
+function setHeight(v){const el=document.getElementById('t-'+selectedField);if(el)el.style.height=v+'px';}
+function setSize(v){
+  const el=document.getElementById('t-'+selectedField);
+  if(el)el.style.fontSize=v+'px';
+  if(selectedField==='winners')updateWinners();
+}
+
+// ---- TEXT ----
+function updateText(id,val){
+  const el=document.getElementById('t-'+id);
+  if(el)el.textContent=isUpper&&selectedField===id?val.toUpperCase():val;
+}
+function updateWinners(){
+  const ov=document.getElementById('ov-winners');
+  const t=document.getElementById('t-winners-ref')||ov;
+  const color=ov.style.color||'#a0c8a0', size=ov.style.fontSize||'14px', font=ov.style.fontFamily||"'Open Sans',sans-serif", weight=ov.style.fontWeight||'400', shadow=ov.style.textShadow||'none';
+  const lines=document.getElementById('i-winners').value.split('\n').map(w=>w.trim()).filter(Boolean);
+  document.getElementById('t-winners').innerHTML=lines.map(w=>`
+    <div class="winner-row" style="color:${color};font-size:${size};font-family:${font};font-weight:${weight};text-shadow:${shadow};line-height:1.8;">
+      <span style="color:#4aaa4a;">✔</span><span>${w}</span><span style="margin-left:10px;color:#c8e832;font-weight:700;">WIN</span>
+    </div>`).join('');
+}
+function updateQuote(){
+  document.getElementById('t-quote').textContent=document.getElementById('i-quote').value;
+  document.getElementById('t-author').textContent=document.getElementById('i-author').value;
+}
+
+// ---- FONT ----
+function setFont(el){
+  if(!selectedField)return;
+  document.querySelectorAll('.fopt').forEach(f=>f.classList.remove('active')); el.classList.add('active');
+  const t=document.getElementById('t-'+selectedField);
+  if(t)t.style.fontFamily=el.dataset.font;
+  if(selectedField==='winners')updateWinners();
+  if(selectedField==='quote')document.getElementById('t-quote').style.fontFamily=el.dataset.font;
+}
+
+// ---- BOLD/ITALIC/UPPER ----
+function toggleBold(){
+  isBold=!isBold; document.getElementById('s-bold').classList.toggle('active',isBold);
+  const t=document.getElementById('t-'+selectedField); if(t)t.style.fontWeight=isBold?'700':'400';
+  if(selectedField==='winners')updateWinners();
+}
+function toggleItalic(){
+  isItalic=!isItalic; document.getElementById('s-italic').classList.toggle('active',isItalic);
+  const t=document.getElementById('t-'+selectedField); if(t)t.style.fontStyle=isItalic?'italic':'normal';
+  if(selectedField==='winners')updateWinners();
+}
+function toggleUpper(){
+  isUpper=!isUpper; document.getElementById('s-upper').classList.toggle('active',isUpper);
+  const t=document.getElementById('t-'+selectedField); if(t)t.style.textTransform=isUpper?'uppercase':'none';
+}
+
+// ---- COLOR ----
+function setColor(val){
+  document.getElementById('txt-hex').textContent=val;
+  const t=document.getElementById('t-'+selectedField); if(t)t.style.color=val;
+  if(selectedField==='winners'){document.getElementById('ov-winners').style.color=val;updateWinners();}
+  if(selectedField==='quote'){document.getElementById('t-quote').style.color=val;document.getElementById('t-author').style.color=val;document.getElementById('q-mark').style.color=val;}
+}
+
+// ---- EFFECTS ----
+function toggleEffect(type){
+  effects[type]=!effects[type]; document.getElementById('s-'+type).classList.toggle('active',effects[type]);
+  updateEffect();
+}
+function updateEffect(){
+  if(!selectedField)return;
+  const t=document.getElementById('t-'+selectedField); if(!t)return;
+  const col=t.style.color||'#daa520', sc=document.getElementById('shadow-color').value;
+  let shadows=[];
+  if(effects.shadow) shadows.push(`3px 3px 6px ${sc}`);
+  if(effects.glow) shadows.push(`0 0 10px ${col},0 0 20px ${col}88`);
+  if(effects.outline) shadows.push(`-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000`);
+  t.style.textShadow=shadows.join(',')||'none';
+  if(selectedField==='winners')updateWinners();
+}
+
+// ---- BG BLOCK ----
+function setBgBlock(){
+  if(!selectedField)return;
+  const t=document.getElementById('t-'+selectedField); if(!t)return;
+  const col=document.getElementById('bg-color').value;
+  const op=parseInt(document.getElementById('bg-opacity').value)/100;
+  const r=parseInt(document.getElementById('bg-radius').value)||0;
+  const p=parseInt(document.getElementById('bg-pad').value)||0;
+  const rgb=hexToRgb(col);
+  t.style.background=op>0?`rgba(${rgb.r},${rgb.g},${rgb.b},${op})`:'transparent';
+  t.style.borderRadius=r+'px';
+  t.style.padding=p+'px';
+}
+
+// ---- BANNER ----
+function updateBanner(){
+  const show=document.getElementById('banner-show').checked;
+  const ov=document.getElementById('ov-banner');
+  ov.style.display=show?'block':'none';
+  if(!show)return;
+  const x=document.getElementById('banner-x').value, y=document.getElementById('banner-y').value;
+  const w=document.getElementById('banner-w').value, h=document.getElementById('banner-h').value;
+  const col=document.getElementById('banner-color').value, r=document.getElementById('banner-r').value;
+  const tc=document.getElementById('banner-tc').value;
+  ov.style.left=x+'px'; ov.style.top=y+'px';
+  const block=document.getElementById('banner-block');
+  block.style.background=col; block.style.borderRadius=r+'px';
+  block.style.width=w+'px'; block.style.height=h+'px';
+  const txt=document.getElementById('banner-txt');
+  txt.textContent=document.getElementById('banner-text').value;
+  txt.style.color=tc;
+}
+
+// ---- QUOTE STYLE ----
+function updateQuoteStyle(){
+  const qov=document.getElementById('ov-quote');
+  const bgcol=document.getElementById('q-bg').value;
+  const op=parseInt(document.getElementById('q-opacity').value)/100;
+  const tc=document.getElementById('q-tc').value, ac=document.getElementById('q-ac').value;
+  const fs=document.getElementById('q-fs').value, r=document.getElementById('q-r').value, w=document.getElementById('q-w').value;
+  const rgb=hexToRgb(bgcol);
+  qov.style.background=`rgba(${rgb.r},${rgb.g},${rgb.b},${op})`;
+  qov.style.borderRadius=r+'px'; qov.style.width=w+'px';
+  document.getElementById('t-quote').style.color=tc;
+  document.getElementById('t-quote').style.fontSize=fs+'px';
+  document.getElementById('t-author').style.color=ac;
+  document.getElementById('q-mark').style.color=ac;
+}
+
+// ---- DRAGGABLE ----
+function makeDraggable(el){
+  el.addEventListener('mousedown',function(e){
+    if(e.target.classList.contains('resize-dot'))return;
+    e.preventDefault();
+    const sx=e.clientX,sy=e.clientY,sl=el.offsetLeft,st=el.offsetTop;
+    function onMove(e){
+      el.style.left=Math.max(0,sl+e.clientX-sx)+'px';
+      el.style.top=Math.max(0,st+e.clientY-sy)+'px';
+      document.getElementById('pos-x').value=Math.round(parseInt(el.style.left));
+      document.getElementById('pos-y').value=Math.round(parseInt(el.style.top));
+    }
+    function onUp(){document.removeEventListener('mousemove',onMove);document.removeEventListener('mouseup',onUp);}
+    document.addEventListener('mousemove',onMove);
+    document.addEventListener('mouseup',onUp);
+  });
+}
+['ov-naam','ov-bedrag','ov-winrate','ov-tips','ov-winners','ov-quote','ov-banner'].forEach(id=>{
+  const el=document.getElementById(id); if(el)makeDraggable(el);
+});
+
+// ---- RESIZE ----
+function startResize(e,id){
+  e.stopPropagation();e.preventDefault();
+  const el=document.getElementById('t-'+id);
+  const sx=e.clientX,sy=e.clientY,sw=el.offsetWidth,sh=el.offsetHeight;
+  function onMove(e){
+    const w=Math.max(40,sw+e.clientX-sx),h=Math.max(16,sh+e.clientY-sy);
+    el.style.width=w+'px';el.style.height=h+'px';
+    document.getElementById('pos-w').value=Math.round(w);
+    document.getElementById('pos-h').value=Math.round(h);
+  }
+  function onUp(){document.removeEventListener('mousemove',onMove);document.removeEventListener('mouseup',onUp);}
+  document.addEventListener('mousemove',onMove);document.addEventListener('mouseup',onUp);
+}
 
 // ---- DOWNLOAD ----
-async function download() {
-  const btn = document.getElementById('dl-btn');
-  btn.disabled = true; btn.textContent = '⏳ Bezig...';
-  document.querySelectorAll('.text-overlay,.winners-overlay').forEach(el => { el.style.border = 'none'; el.classList.remove('selected'); });
-  try {
-    const container = document.getElementById('preview-container');
-    const canvas = await html2canvas(container, { backgroundColor: null, scale: 3, useCORS: true, allowTaint: true, logging: false });
-    const link = document.createElement('a'); link.download = 'profit-recap.png'; link.href = canvas.toDataURL('image/png'); link.click();
-  } catch(e) { alert('Download mislukt. Probeer een screenshot.'); }
-  document.querySelectorAll('.text-overlay,.winners-overlay').forEach(el => { el.style.border = '1px dashed rgba(218,165,32,0.4)'; });
-  btn.disabled = false; btn.textContent = '⬇ DOWNLOAD PNG';
+async function download(){
+  const btn=document.getElementById('dl-btn');
+  btn.disabled=true;btn.textContent='⏳ Bezig...';
+  document.querySelectorAll('.ov').forEach(el=>{el.classList.remove('selected');});
+  document.querySelectorAll('.ov-border').forEach(el=>el.style.borderColor='transparent');
+  document.querySelectorAll('.resize-dot').forEach(el=>el.style.opacity='0');
+  try{
+    const c=await html2canvas(document.getElementById('preview-container'),{backgroundColor:null,scale:3,useCORS:true,allowTaint:true,logging:false});
+    const a=document.createElement('a');a.download='profit-recap.png';a.href=c.toDataURL('image/png');a.click();
+  }catch(e){alert('Download mislukt.');}
+  document.querySelectorAll('.ov-border').forEach(el=>el.style.borderColor='');
+  document.querySelectorAll('.resize-dot').forEach(el=>el.style.opacity='');
+  btn.disabled=false;btn.textContent='⬇ Download PNG';
 }
 
 // ---- UTILS ----
-function rgbToHex(rgb) {
-  if (rgb.startsWith('#')) return rgb;
-  const m = rgb.match(/\d+/g);
-  if (!m) return '#daa520';
-  return '#' + m.slice(0,3).map(x => parseInt(x).toString(16).padStart(2,'0')).join('');
+function rgbToHex(rgb){
+  if(!rgb)return'#daa520';if(rgb.startsWith('#'))return rgb;
+  const m=rgb.match(/\d+/g);if(!m)return'#daa520';
+  return'#'+m.slice(0,3).map(x=>parseInt(x).toString(16).padStart(2,'0')).join('');
 }
+function hexToRgb(hex){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return{r,g,b};
+}
+
+// Init
+updateWinners();
 </script>
 </body>
 </html>
